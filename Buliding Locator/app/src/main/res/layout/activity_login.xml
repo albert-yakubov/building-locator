@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:screenOrientation="portrait"
+    tools:context=".LoginActivity">
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_username"
+        app:boxBackgroundColor="@color/colorPrimaryDark"
+        app:errorEnabled="true"
+        android:layout_margin="16dp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_input_password"
+        app:counterEnabled="true"
+        app:counterMaxLength="12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:hint="Username"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_password"
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:errorEnabled="true"
+        android:layout_margin="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_input_username"
+        app:counterEnabled="true"
+        app:counterMaxLength="12"
+        app:passwordToggleEnabled="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:inputType="textPassword"
+            android:hint="Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_login"
+        app:layout_constraintTop_toBottomOf="@id/text_input_password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <Button
+        android:id="@+id/btn_login"
+        android:text="Login"
+        android:background="@drawable/rounded_button_settings"
+        app:layout_constraintTop_toBottomOf="@id/text_input_password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_register"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@drawable/rounded_button_settings"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_login"
+        android:text="Register new Account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"/>
+
+    <Button
+        android:id="@+id/btn_reset"
+
+        android:layout_width="175dp"
+        android:layout_height="22dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/rounded_button_settings"
+        android:text="Forgot Password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_register" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">Building Locator</string>
+
+    <string name="i_want_to_help">I want to help</string>
+    <string name="my_organization_needs_help">My Organization Needs Help</string>
+    <string name="select_one">Select One:</string>
+    <string name="com_auth0_client_id">elyo5qK7vYReEsKAPEADW2T8LAMpIJaf</string>
+    <string name="com_auth0_domain">https://auth.expo.io</string>
+    <string name="banner_image">banner_image</string>
+    <string name="username">USERNAME</string>
+    <string name="location">LOCATION</string>
+    <string name="event_name">EVENT NAME</string>
+    <string name="event_description">EVENT DESCRIPTION</string>
+    <string name="post_date">POST DATE</string>
+    <string name="flag_for_review">Flag for Review</string>
+    <string name="empty" />
+    <string name="campaign_title">Campaign Title:</string>
+    <string name="is_this_an_update_urgent_or_new_post">Is this an Update, Urgent or new Post?</string>
+    <string name="date">Date</string>
+    <string name="post_campaign">Post Campaign</string>
+    <string name="image_url">Image URl</string>
+    <string name="post_description">Post Description</string>
+    <string name="event_name_eg_saving_turtles_planting_trees">Event Name: eg: saving turtles, planting trees</string>
+    <string name="mini_bio">Mini Bio</string>
+    <string name="species_and_habitats">Species and habitats</string>
+    <string name="title_activity_maps">Map</string>
+
 </resources>
