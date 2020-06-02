@@ -12,9 +12,9 @@ import retrofit2.http.*
 interface LoginServiceSql{
 
 
-//    @GET("campaigns/campaigns")
-//    //fun getAllProperties(@Header("Authorization") authToken: String): Call<Properties>
-//    fun getAllCampaigns() : Call<MutableList<PostedMaps>>
+    @GET("postedmaps/postedmaps")
+    //fun getAllProperties(@Header("Authorization") authToken: String): Call<Properties>
+    fun getAllMaps() : Call<MutableList<PostedMaps>>
 
 
 
@@ -39,16 +39,16 @@ interface LoginServiceSql{
     fun login(@Header ("Authorization") authorization: String, @Header("Content-Type") content_type: String,
               @Field("username") username: String, @Field("password") password: String) : Call<ResponseBody>
 
-//    @POST("postedmaps/postedmap")
-//    //  fun createProperty(@Header("Authorization") authToken: String, @Body newProperty: NewProperty): Call<Void>
-//    fun createNewMap(@Body newPostedMap: NewPostedMap) : Call<Void>
+    @POST("postedmaps/postedmap")
+    //  fun createProperty(@Header("Authorization") authToken: String, @Body newProperty: NewProperty): Call<Void>
+    fun createNewMap(@Body newMap: NewMap) : Call<Void>
 
     @GET("users/user/name/{userName}")
 
     fun getUser(@Path("userName")username: String): Call<UserResult>
 
     @DELETE("postedmaps/postedmap/{id}")
-    fun deleteCampaign(@Path("id") id: Long) : Call<Void>
+    fun deleteMap(@Path("id") id: Long) : Call<Void>
 
     @GET("users/user/name/{userName}")
     fun getUser2(@Path("userName")username: String): Call<User>
@@ -57,12 +57,12 @@ interface LoginServiceSql{
     fun getUser3(@Path("userName")username: String): Call<User>
 
 
-//    @GET("campaigns/campaign/title/like/{title}")
-//    fun getFoundUser(@Path("title") title: String): Observable<MutableList<PostedMaps>>
-//
-//
-//    @GET("campaigns/campaign/event_name/like/{eventname}")
-//    fun getEventName(@Path("eventname") eventname: String): Observable<MutableList<PostedMaps>>
+    @GET("postedmaps/postedmap/title/like/{title}")
+    fun getFoundUser(@Path("title") title: String): Observable<MutableList<PostedMaps>>
+
+
+    @GET("postedmaps/postedmap/address/like/{address}")
+    fun getAddress(@Path("address") address: String): Observable<MutableList<PostedMaps>>
     companion object {
 
         const val BASE_URL = "https://ay-my-location.herokuapp.com/"

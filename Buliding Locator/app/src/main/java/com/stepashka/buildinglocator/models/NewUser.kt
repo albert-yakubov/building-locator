@@ -23,7 +23,6 @@ class Neweruser(
     var username: String? = null,
     var password: String? = null,
     var primaryemail: String? = null,
-    var facebook: String? = null,
 
     var firstname: String? = null,
     var lastname: String? = null,
