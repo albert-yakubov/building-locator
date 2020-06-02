@@ -23,6 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var foundUserService: LoginServiceSql
     companion object{
         var map: MutableList<PostedMaps>? = null
-
+        var title: String = ""
         var userid: Long = 12314546
         var ulatitude: Double = 0.0
         var ulongitude: Double = 0.0
@@ -90,6 +91,7 @@ class MainActivity : AppCompatActivity(){
                 Toast.makeText(this, "Please enter something in search", Toast.LENGTH_SHORT).show()
             }
         }
+
         searchButton.setOnLongClickListener {
             val searchedFor = enterText.text.toString()
             if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {

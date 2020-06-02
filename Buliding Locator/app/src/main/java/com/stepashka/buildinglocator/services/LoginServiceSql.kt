@@ -50,6 +50,10 @@ interface LoginServiceSql{
     @DELETE("postedmaps/postedmap/{id}")
     fun deleteMap(@Path("id") id: Long) : Call<Void>
 
+    @GET("postedmaps/postedmap/{id}")
+    fun getMapById(@Path("id") id: Long) : Call<PostedMaps>
+
+
     @GET("users/user/name/{userName}")
     fun getUser2(@Path("userName")username: String): Call<User>
 

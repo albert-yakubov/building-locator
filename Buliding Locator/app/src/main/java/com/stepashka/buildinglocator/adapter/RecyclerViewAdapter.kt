@@ -47,6 +47,7 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
         return postedMaps!!.size
     }
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
@@ -153,7 +154,9 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
         }
 
 
+
     }
+
 
     fun updateMap(newList: MutableList<PostedMaps>?) {
         postedMaps = newList
