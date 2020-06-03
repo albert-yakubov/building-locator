@@ -70,7 +70,7 @@
                 android:layout_marginBottom="102dp"
                 android:layout_weight="0.5"
                 android:background="#00FFFFFF"
-                android:hint="tap_for_title_or_hold_for_event"
+                android:hint="Tap for title or hold for address"
                 app:layout_constraintEnd_toStartOf="@+id/searchButton"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

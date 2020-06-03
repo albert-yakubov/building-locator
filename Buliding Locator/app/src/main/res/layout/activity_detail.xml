@@ -30,7 +30,7 @@
 
         <com.github.chrisbanes.photoview.PhotoView
 
-            android:id="@+id/image_mapdetail"
+            android:id="@+id/MAPME"
             android:layout_width="match_parent"
             android:layout_height="590dp"
             android:layout_alignParentStart="true"

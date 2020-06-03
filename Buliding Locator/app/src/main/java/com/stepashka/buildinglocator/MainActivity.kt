@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity(){
         var ulongitude: Double = 0.0
         var username4D: String = ""
         lateinit var username: String
+        var MAPID: Long = 1
     }
     private lateinit var handler: Handler
     private lateinit var r: Runnable
@@ -104,7 +105,7 @@ class MainActivity : AppCompatActivity(){
                         if (title.isNotEmpty() ) {
                             vRecycle.adapter = RecyclerViewAdapter(eventname)
                         } else {
-                            Toast.makeText(this, "event not found", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "address not found", Toast.LENGTH_SHORT).show()
                         }
                     }, { t ->
                         Log.i("Retrofit - ", "$t", t)
@@ -170,6 +171,24 @@ class MainActivity : AppCompatActivity(){
             }
 
         })
+    }
+    fun getMapByAddress(){
+        val call: Call<PostedMaps> = ServiceBuilder.create().getById(MAPID)
+
+        call.enqueue(object: Callback<PostedMaps> {
+            override fun onFailure(call: Call<PostedMaps>, t: Throwable) {
+                Log.i("Something went wrong!", "onFailure ${t.message.toString()}")
+            }
+
+
+            override fun onResponse(call: Call<PostedMaps>, response: Response<PostedMaps>) {
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                startActivity(intent)
+            }
+
+        })
+
+
     }
     fun getAllMaps(){
         val call: Call<MutableList<PostedMaps>> = ServiceBuilder.create().getAllMaps()

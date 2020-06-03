@@ -50,8 +50,7 @@ interface LoginServiceSql{
     @DELETE("postedmaps/postedmap/{id}")
     fun deleteMap(@Path("id") id: Long) : Call<Void>
 
-    @GET("postedmaps/postedmap/{id}")
-    fun getMapById(@Path("id") id: Long) : Call<PostedMaps>
+
 
 
     @GET("users/user/name/{userName}")
@@ -61,12 +60,16 @@ interface LoginServiceSql{
     fun getUser3(@Path("userName")username: String): Call<User>
 
 
-    @GET("postedmaps/postedmap/title/like/{title}")
+    @GET("postedmaps/postedmaps/title/like/{title}")
     fun getFoundUser(@Path("title") title: String): Observable<MutableList<PostedMaps>>
 
 
-    @GET("postedmaps/postedmap/address/like/{address}")
+    @GET("postedmaps/postedmaps/address/like/{address}")
     fun getAddress(@Path("address") address: String): Observable<MutableList<PostedMaps>>
+
+    @GET("postedmaps/postedmaps/{id}")
+    fun getById(@Path("id") id: Long): Call<PostedMaps>
+
     companion object {
 
         const val BASE_URL = "https://ay-my-location.herokuapp.com/"

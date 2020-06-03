@@ -148,6 +148,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/textview_comments"
                 app:layout_constraintVertical_bias="0.609" />
 
+            <TextView
+
+                android:id="@+id/textview_id"
+                android:layout_width="104dp"
+                android:layout_height="26dp"
+                android:visibility="gone"
+                android:text="@string/post_date"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.065"
+                app:layout_constraintStart_toEndOf="@+id/imageView_map"
+                app:layout_constraintTop_toBottomOf="@+id/textview_comments"
+                app:layout_constraintVertical_bias="0.435" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

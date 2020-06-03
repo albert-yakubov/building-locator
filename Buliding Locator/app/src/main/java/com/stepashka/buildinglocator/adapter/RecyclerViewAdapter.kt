@@ -1,6 +1,5 @@
 package com.stepashka.buildinglocator.adapter
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -12,6 +11,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
+import com.stepashka.buildinglocator.DetailActivity
 import com.stepashka.buildinglocator.MainActivity
 import com.stepashka.buildinglocator.R
 import com.stepashka.buildinglocator.models.PostedMaps
@@ -31,10 +31,12 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
 
 
     private var context: Context? = null
+    var key : Long = 1
 
 
-
-
+    companion object{
+        var mapid: Long = 1
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         val view =
@@ -94,6 +96,20 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
         holder.date?.text = ms
         holder.username?.text = currentMap?.user?.username.toString()
         holder.city?.text = currentMap?.city.toString()
+        holder.id?.text = currentMap?.id.toString()
+        MainActivity.MAPID = currentMap?.id.toString().toLong()
+        mapid = currentMap?.id.toString().toLong()
+        DetailActivity.IMAGEME = currentMap?.map.toString()
+
+        key = currentMap?.id.toString().toLong()
+        val intent = Intent(context, DetailActivity::class.java)
+        intent.putExtra("key", currentMap?.id.toString().toLong())
+        intent.putExtra("image", currentMap?.map.toString())
+        holder.mapImage?.setOnClickListener {
+
+            context?.startActivity(intent)
+
+        }
 
         holder.state?.text = currentMap?.state.toString()
         holder.zip?.text = currentMap?.zip.toString()
@@ -133,8 +149,7 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
 
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-
+        val id: TextView? = itemView.textview_id
         val mapImage: ImageView? = itemView.imageView_map
         val title: TextView? = itemView.textview_title
         val address: TextView? = itemView.textview_address
@@ -184,6 +199,26 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
             }
 //
         })
+    }
+
+    fun getMapById(){
+        val call: Call<PostedMaps> = ServiceBuilder.create().getById(MainActivity.MAPID)
+
+        call.enqueue(object: Callback<PostedMaps> {
+            override fun onFailure(call: Call<PostedMaps>, t: Throwable) {
+                Log.i("Something went wrong!", "onFailure ${t.message.toString()}")
+            }
+
+
+            override fun onResponse(call: Call<PostedMaps>, response: Response<PostedMaps>) {
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("key", MainActivity.MAPID )
+                context?.startActivity(intent)
+            }
+
+        })
+
+
     }
 
 

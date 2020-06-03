@@ -159,7 +159,7 @@ class LoginActivity : AppCompatActivity() {
 
                     progress_login.visibility = View.GONE
 
-                    Log.i("Login", "Success ${response.body()}")
+
 
 
                     Toast.makeText(this@LoginActivity, "Welcome $username", Toast.LENGTH_LONG).show()

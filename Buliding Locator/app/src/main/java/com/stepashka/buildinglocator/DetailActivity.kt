@@ -1,19 +1,16 @@
 package com.stepashka.buildinglocator
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import com.squareup.picasso.Picasso
 import com.stepashka.buildinglocator.adapter.RecyclerViewAdapter
 import com.stepashka.buildinglocator.models.PostedMaps
 import com.stepashka.buildinglocator.services.ServiceBuilder
+import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.item_view.*
 
 import retrofit2.Call
@@ -22,13 +19,14 @@ import retrofit2.Response
 
 class DetailActivity : AppCompatActivity() {
 
+    companion object {
+        var PASSID: Long = 1
+        var IMAGEME = ""
+    }
 
     var primaryemail = ""
-    var ulatitude: Double= 0.0
-    var ulongitude: Double= 0.0
-
-
-
+    var ulatitude: Double = 0.0
+    var ulongitude: Double = 0.0
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -38,47 +36,43 @@ class DetailActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         getMapById()
-
     }
-    fun getMapById(){
-        val call: Call<PostedMaps> = ServiceBuilder.create().getMapById(1)
+        fun getMapById() {
+            val call: Call<PostedMaps> = ServiceBuilder.create().getById(RecyclerViewAdapter.mapid)
 
-        call.enqueue(object: Callback<PostedMaps> {
-            override fun onFailure(call: Call<PostedMaps>, t: Throwable) {
-                Log.i("User ", "onFailure ${t.message.toString()}")
-            }
+            call.enqueue(object : Callback<PostedMaps> {
+                override fun onFailure(call: Call<PostedMaps>, t: Throwable) {
+                    Log.i("User ", "onFailure ${t.message.toString()}")
+                }
 
-            override fun onResponse(call: Call<PostedMaps>, response: Response<PostedMaps>) {
-                if(response.isSuccessful){
+                override fun onResponse(call: Call<PostedMaps>, response: Response<PostedMaps>) {
+                    if (response.isSuccessful) {
 
+                        val profilePictureSfx = response.body()?.map ?: ""
 
+                        if ((profilePictureSfx.endsWith("jpeg")) ||
+                            (profilePictureSfx.endsWith("jpg")) ||
+                            (profilePictureSfx.endsWith("png")) ||
+                            (profilePictureSfx.contains("auto"))
+                        ) {
+                            Picasso.get().load(profilePictureSfx).into(MAPME)
+                            Log.i("profile pic", profilePictureSfx)
 
+                        }
 
-
-                    val profilePictureSfx = response.body()?.map ?: ""
-
-                    val profilePicture: ImageView? = imageView_map
-                    if((profilePictureSfx.endsWith("jpeg")) ||
-                        (profilePictureSfx.endsWith("jpg")) ||
-                        (profilePictureSfx.endsWith("png")) ||
-                        (profilePictureSfx.contains("auto"))){
-                        Picasso.get().load(profilePictureSfx).into(profilePicture)
-                        Log.i("profile pic", profilePictureSfx)
-
+                    } else {
+                        Log.i("Something Went Wrong ", "OnResponseFailure ${response.errorBody()}")
                     }
 
-                    Log.i("mini bio", response.body()!!.map ?: "")
-                    //code goes here
-                }
-                else{
-                    Log.i("User ", "OnResponseFailure ${response.errorBody()}")
                 }
 
-            }
+            })
 
-        })
-
+        }
     }
+
+
+
 //    private fun sendEmail(recipient: String, subject: String, message: String) {
 //        /*ACTION_SEND action to launch an email client installed on your Android device.*/
 //        val mIntent = Intent(Intent.ACTION_SEND)
@@ -108,4 +102,3 @@ class DetailActivity : AppCompatActivity() {
 //
 //    }
 
-}
