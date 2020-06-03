@@ -38,6 +38,7 @@ class DetailActivity : AppCompatActivity() {
         getMapById()
     }
         fun getMapById() {
+
             val call: Call<PostedMaps> = ServiceBuilder.create().getById(RecyclerViewAdapter.mapid)
 
             call.enqueue(object : Callback<PostedMaps> {

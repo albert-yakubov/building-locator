@@ -98,15 +98,17 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
         holder.city?.text = currentMap?.city.toString()
         holder.id?.text = currentMap?.id.toString()
         MainActivity.MAPID = currentMap?.id.toString().toLong()
-        mapid = currentMap?.id.toString().toLong()
+        //mapid = currentMap?.id.toString().toLong()
         DetailActivity.IMAGEME = currentMap?.map.toString()
 
         key = currentMap?.id.toString().toLong()
         val intent = Intent(context, DetailActivity::class.java)
         intent.putExtra("key", currentMap?.id.toString().toLong())
         intent.putExtra("image", currentMap?.map.toString())
-        holder.mapImage?.setOnClickListener {
 
+        holder.mapImage?.setOnClickListener {
+            mapid = currentMap?.id.toString().toLong()
+            intent.putExtra("key", currentMap?.id.toString().toLong())
             context?.startActivity(intent)
 
         }
