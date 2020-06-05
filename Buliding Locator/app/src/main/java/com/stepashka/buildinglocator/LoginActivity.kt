@@ -137,7 +137,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun login(){
+    private fun login(){
 
 
         val call: Call<ResponseBody> = ServiceBuilder.create()
@@ -150,7 +150,7 @@ class LoginActivity : AppCompatActivity() {
 
                 Toast.makeText(this@LoginActivity, "Connection Issue... try again...", Toast.LENGTH_LONG).show()
 
-                Log.i("Login:", "OnFailure ${t.message}")
+
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -166,7 +166,7 @@ class LoginActivity : AppCompatActivity() {
                     successfulLogin = true
 
                 }else{
-                    Log.i("Login", "Failure ${response.body()}")
+
                     btn_login.visibility= View.VISIBLE
 
                     val builder2 = AlertDialog.Builder(this@LoginActivity)

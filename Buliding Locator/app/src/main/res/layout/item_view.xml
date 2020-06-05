@@ -34,7 +34,7 @@
 
             <TextView
                 android:id="@+id/textview_address"
-                android:layout_width="222dp"
+                android:layout_width="202dp"
                 android:layout_height="24dp"
                 android:text="Address"
                 android:textStyle="bold"
@@ -73,23 +73,22 @@
 
             <TextView
                 android:id="@+id/textview_title"
-                android:layout_width="232dp"
-                android:layout_height="25dp"
+                android:layout_width="192dp"
+                android:layout_height="21dp"
                 android:layout_marginBottom="8dp"
                 android:text="Title"
                 android:textColor="@color/wine"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/textview_city"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/imageView_map"
                 app:layout_constraintTop_toBottomOf="@+id/textview_profilepicture"
-                app:layout_constraintVertical_bias="0.275" />
+                app:layout_constraintVertical_bias="0.424" />
 
             <TextView
                 android:id="@+id/textview_city"
-                android:layout_width="220dp"
-                android:layout_height="21dp"
+                android:layout_width="206dp"
+                android:layout_height="35dp"
                 android:layout_marginBottom="176dp"
                 android:text="City"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -100,16 +99,16 @@
             <TextView
 
                 android:id="@+id/textview_state"
-                android:layout_width="104dp"
-                android:layout_height="26dp"
+                android:layout_width="63dp"
+                android:layout_height="29dp"
                 android:layout_marginBottom="16dp"
                 android:text="State"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.088"
+                app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toEndOf="@+id/imageView_map"
                 app:layout_constraintTop_toBottomOf="@+id/textview_city"
-                app:layout_constraintVertical_bias="0.119" />
+                app:layout_constraintVertical_bias="0.122" />
 
             <TextView
 
@@ -119,19 +118,19 @@
                 android:layout_marginTop="16dp"
                 android:text="ZIP"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.466"
+                app:layout_constraintHorizontal_bias="0.373"
                 app:layout_constraintStart_toEndOf="@+id/textview_state"
                 app:layout_constraintTop_toBottomOf="@+id/textview_city" />
 
             <TextView
 
                 android:id="@+id/textview_comments"
-                android:layout_width="194dp"
-                android:layout_height="51dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="197dp"
+                android:layout_height="59dp"
+                android:layout_marginTop="20dp"
                 android:text="Comments"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintHorizontal_bias="0.375"
                 app:layout_constraintStart_toEndOf="@+id/imageView_map"
                 app:layout_constraintTop_toBottomOf="@+id/textview_zip" />
 
