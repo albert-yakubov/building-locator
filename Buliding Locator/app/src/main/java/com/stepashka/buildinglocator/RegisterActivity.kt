@@ -456,12 +456,12 @@ class RegisterActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallback
 
         call.enqueue(object: Callback<RegisterResponse> {
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                Log.i("OnFailure", t.message)
+                Toast.makeText(this@RegisterActivity, "Noooo", Toast.LENGTH_SHORT).show()
             }
 
             override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                 token = response.body()?.token ?: ""
-                Log.i("onRespone", token)
+                Toast.makeText(this@RegisterActivity, "No token", Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.Toast
 import com.squareup.picasso.Picasso
 import com.stepashka.buildinglocator.adapter.RecyclerViewAdapter
 import com.stepashka.buildinglocator.models.PostedMaps
@@ -43,7 +44,6 @@ class DetailActivity : AppCompatActivity() {
 
             call.enqueue(object : Callback<PostedMaps> {
                 override fun onFailure(call: Call<PostedMaps>, t: Throwable) {
-                    Log.i("User ", "onFailure ${t.message.toString()}")
                 }
 
                 override fun onResponse(call: Call<PostedMaps>, response: Response<PostedMaps>) {
@@ -57,12 +57,11 @@ class DetailActivity : AppCompatActivity() {
                             (profilePictureSfx.contains("auto"))
                         ) {
                             Picasso.get().load(profilePictureSfx).into(MAPME)
-                            Log.i("profile pic", profilePictureSfx)
 
                         }
 
                     } else {
-                        Log.i("Something Went Wrong ", "OnResponseFailure ${response.errorBody()}")
+                        Toast.makeText(this@DetailActivity, "Noooo", Toast.LENGTH_SHORT).show()
                     }
 
                 }

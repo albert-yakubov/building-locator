@@ -177,7 +177,6 @@ class MainActivity : AppCompatActivity(){
 
         call.enqueue(object: Callback<PostedMaps> {
             override fun onFailure(call: Call<PostedMaps>, t: Throwable) {
-                Log.i("Something went wrong!", "onFailure ${t.message.toString()}")
             }
 
 
@@ -195,7 +194,6 @@ class MainActivity : AppCompatActivity(){
 
         call.enqueue(object: Callback<MutableList<PostedMaps>> {
             override fun onFailure(call: Call<MutableList<PostedMaps>>, t: Throwable) {
-                Log.i("PostedMaps ", "onFailure ${t.message.toString()}")
             }
 
             override fun onResponse(call: Call<MutableList<PostedMaps>>, response: Response<MutableList<PostedMaps>>) {
@@ -219,7 +217,7 @@ class MainActivity : AppCompatActivity(){
                     }
                 }
                 else{
-                    Log.i("PostedMaps ", "OnResponseFailure ${response.errorBody()}")
+                    Toast.makeText(this@MainActivity, "Nooooo", Toast.LENGTH_SHORT).show()
                 }
             }
 

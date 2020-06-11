@@ -192,11 +192,9 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
                 if(response.isSuccessful){
 
 
-                    Log.i("Delete Property", "OnResponseSuccess ${response.message()}")
 //
                 }
                 else{
-                    Log.i("Add Property", "OnResponseFailure ${response.errorBody()}")
                 }
             }
 //
@@ -208,7 +206,6 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
 
         call.enqueue(object: Callback<PostedMaps> {
             override fun onFailure(call: Call<PostedMaps>, t: Throwable) {
-                Log.i("Something went wrong!", "onFailure ${t.message.toString()}")
             }
 
 
