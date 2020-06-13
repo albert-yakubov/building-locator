@@ -29,6 +29,12 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import com.stepashka.buildinglocator.models.NewMap
+import com.stepashka.buildinglocator.models.NewMapUser
+import com.stepashka.buildinglocator.services.ServiceBuilder
+import com.stepashka.buildinglocator.util.Notification
+import kotlinx.android.synthetic.main.activity_post_map.*
+import kotlinx.android.synthetic.main.item_view.*
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,7 +46,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener , AdapterView.OnItemSelectedListener{
+class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
 
 
@@ -138,11 +144,13 @@ class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks
             btn_property_add.setOnClickListener {
                 title = view_textTitle.editText?.text.toString()
 
-                address = view_textLocation.editText?.text.toString()
+                address = view_textAddress.editText?.text.toString()
                 created_at = giveMeTime
-                event_image = view_event_image_layout.editText?.text.toString()
-                eventname = view_event_name.editText?.text.toString()
-                event_description = view_event_description.editText?.text.toString()
+                city = view_textCity.editText?.text.toString()
+                state = view_textState.editText?.text.toString()
+                zip = view_textZip.editText?.text.toString()
+                comments = view_event_description.editText?.text.toString()
+                map = view_event_image_layout.editText?.text.toString()
                 createPost()
             }
         }
@@ -150,18 +158,22 @@ class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks
 
     fun createPost() {
         pb_add_property?.visibility = View.VISIBLE
-        val call: Call<Void> = ServiceBuilder.create().createNewCampaign(
-            NewCampaign(
+        val call: Call<Void> = ServiceBuilder.create().createNewMap(
+            NewMap(
                 title,
-                banner_image,
-                location,
-                mLatitudeTextView.toDouble(),
-                mLongitudeTextView.toDouble(),
+                address,
+                map,
+                city,
+                state,
+                zip,
+                comments,
+                0.0,
+                0.0,
+
+//                mLatitudeTextView.toDouble(),
+//                mLongitudeTextView.toDouble(),
                 created_at,
-                event_image,
-                eventname,
-                event_description,
-                NewCampUser(MainActivity.userid)
+                NewMapUser(MainActivity.userid)
             )
         )
         call.enqueue(object : Callback<Void> {
@@ -172,31 +184,35 @@ class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.i("Add Post", "OnResponseSuccess ${response.message()}")
-                    val newPost = NewCampaign(
+                    val newPost = NewMap(
                         title,
-                        banner_image,
-                        location,
-                        mLatitudeTextView.toDouble(),
-                        mLongitudeTextView.toDouble(),
+                        address,
+                        map,
+                        city,
+                        state,
+                        zip,
+                        comments,
+                        0.0,
+                        0.0,
+                        
+//                        mLatitudeTextView.toDouble(),
+//                        mLongitudeTextView.toDouble(),
                         created_at,
-                        event_image,
-                        eventname,
-                        event_description,
-                        NewCampUser(MainActivity.userid)
+                        NewMapUser(MainActivity.userid)
 
                     )
                     //     LoginActivity.properties?.plus(nProperty)
                     pb_add_property?.visibility = View.GONE
-                    Toast.makeText(this@CreatePostActivity, "Addded", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@CreatePostActivity, MainActivity::class.java)
+                    Toast.makeText(this@PostMapActivity, "Addded", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this@PostMapActivity, MainActivity::class.java)
                     startActivity(intent)
-                    Notification.Notification(this@CreatePostActivity)
-                    val intentP = Intent(this@CreatePostActivity, CreatePostActivity::class.java)
+                    Notification.Notification(this@PostMapActivity)
+                    val intentP = Intent(this@PostMapActivity, PostMapActivity::class.java)
                     PendingIntent.getActivity(
-                        this@CreatePostActivity, Build.VERSION_CODES.O, intentP, PendingIntent.FLAG_UPDATE_CURRENT)
+                        this@PostMapActivity, Build.VERSION_CODES.O, intentP, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 } else {
-                    Toast.makeText(this@CreatePostActivity, "NOT Addded", Toast.LENGTH_LONG)
+                    Toast.makeText(this@PostMapActivity, "NOT Addded", Toast.LENGTH_LONG)
                         .show()
                     pb_add_property?.visibility = View.GONE
                     Log.i("Add Property", "OnResponseFailure ${response.errorBody()}")
@@ -205,15 +221,8 @@ class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks
 
         })
     }
-    override fun onItemSelected(arg0: AdapterView<*>, arg1: View, position: Int, id: Long) {
-        // use position to know the selected item
-        spinnertext_status!!.text = listOfItemsForSpinner[position]
 
 
-    }
-    override fun onNothingSelected(arg0: AdapterView<*>) {
-
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == IMG_CODE && resultCode == RESULT_OK && data != null && data.data != null) {
@@ -237,14 +246,14 @@ class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks
                         val publicId:String = resultData["url"] as String
                         mCurrentPhotoPath = publicId
                         view_event_image.setText(mCurrentPhotoPath.replace("http://", "https://"))
-                        Toast.makeText(this@CreatePostActivity, "Upload successful", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@PostMapActivity, "Upload successful", Toast.LENGTH_LONG).show()
 
                     }
 
                     override fun onError(requestId: String, error: ErrorInfo) {
                         Log.d(TAG,error.description)
 
-                        Toast.makeText(this@CreatePostActivity,"Upload was not successful",Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@PostMapActivity,"Upload was not successful",Toast.LENGTH_LONG).show()
                     }
                     override fun onReschedule(requestId: String, error: ErrorInfo) {
                         Log.d(TAG, "onReschedule")

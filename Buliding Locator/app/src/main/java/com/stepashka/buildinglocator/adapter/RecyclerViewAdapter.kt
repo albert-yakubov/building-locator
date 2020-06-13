@@ -92,7 +92,7 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
         holder.address?.text = currentMap?.address
         // holder.eventDate?.text = currentMap?.created_at.toString()
         val myString = currentMap?.created_at.toString()
-        val ms = "" +myString[0] + myString[1] + myString[2] + myString[3] + "/" + myString[4] + myString[5] + "/" + myString[6] + "0"
+        val ms = "recent"
         holder.date?.text = ms
         holder.username?.text = currentMap?.user?.username.toString()
         holder.city?.text = currentMap?.city.toString()
