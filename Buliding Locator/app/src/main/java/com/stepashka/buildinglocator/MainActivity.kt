@@ -119,10 +119,10 @@ class MainActivity : AppCompatActivity(){
 
 
 
-//        view_floatingbutton.setOnClickListener {
-//            val intent = Intent(this, CreatePostActivity::class.java)
-//            startActivity(intent)
-//        }
+        view_floatingbutton.setOnClickListener {
+            val intent = Intent(this, PostMapActivity::class.java)
+            startActivity(intent)
+        }
 
         getAllMaps()
 

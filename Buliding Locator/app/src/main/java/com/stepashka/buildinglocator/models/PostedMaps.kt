@@ -11,7 +11,6 @@ data class PostedMaps(
     val state: String? = null,
     val zip: String? = null,
     val comments: String? = null,
-    val location: String? = null,
 
     val latitude: Double? = null,
 
@@ -34,7 +33,6 @@ data class NewMap(
     var state: String,
     var zip: String,
     var comments: String,
-    var location: String,
     var latitude: Double,
 
     var longitude: Double,

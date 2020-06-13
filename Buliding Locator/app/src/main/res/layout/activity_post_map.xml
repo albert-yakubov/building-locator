@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mAddPlaceLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:screenOrientation="portrait">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_lon_camp"
+        android:layout_width="173dp"
+        android:layout_height="67dp"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:counterMaxLength="12"
+
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/btn_property_add"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_event_description"
+        app:layout_constraintVertical_bias="1.0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="lon"
+            android:inputType="numberDecimal"
+            android:visibility="invisible" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_lat_camp"
+        android:layout_width="173dp"
+        android:layout_height="67dp"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:counterMaxLength="12"
+
+        app:errorEnabled="true"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_event_description"
+        app:layout_constraintVertical_bias="1.0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="lat"
+            android:inputType="numberDecimal"
+            android:visibility="invisible" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/view_image"
+        android:layout_width="149dp"
+        android:layout_height="114dp"
+        android:src="@drawable/vector_picture_add"
+        app:layout_constraintBottom_toTopOf="@+id/view_created_at"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.669"
+        app:layout_constraintStart_toEndOf="@+id/view_event_image_layout"
+        app:layout_constraintTop_toBottomOf="@+id/view_textCity"
+        app:layout_constraintVertical_bias="0.421" />
+
+    <TextView
+        android:id="@+id/tv_add_property"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Map"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_textTitle"
+        android:layout_width="376dp"
+        android:layout_height="49dp"
+        android:layout_margin="8dp"
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:errorEnabled="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_property">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Complex Title" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_textAddress"
+        android:layout_width="379dp"
+        android:layout_height="44dp"
+        android:layout_margin="8dp"
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:errorEnabled="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_textTitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/view_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Address" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_textCity"
+        android:layout_width="174dp"
+        android:layout_height="62dp"
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:errorEnabled="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_textAddress">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="City"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_textState"
+        android:layout_width="174dp"
+        android:layout_height="62dp"
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/view_textZip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view_textCity"
+        app:layout_constraintTop_toBottomOf="@+id/view_textAddress">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="State"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_textZip"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:layout_margin="8dp"
+        android:layout_marginTop="280dp"
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:counterMaxLength="12"
+
+        app:errorEnabled="true"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_textCity">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Zip"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_event_image_layout"
+        android:layout_width="208dp"
+        android:layout_height="51dp"
+        android:layout_margin="8dp"
+        android:layout_marginTop="24dp"
+
+        android:visibility="invisible"
+        app:boxBackgroundColor="@color/design_default_color_background"
+
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_textZip">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/view_event_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/image_url"
+            android:inputType="text"
+            android:visibility="invisible" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/nuuuull"
+        android:layout_width="208dp"
+        android:layout_height="51dp"
+        android:layout_margin="8dp"
+
+        android:layout_marginTop="24dp"
+        app:boxBackgroundColor="@color/design_default_color_background"
+
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_textZip">
+
+
+        <TextView
+            android:id="@+id/nnnuuulll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Please Upload Picture>>>"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_created_at"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="8dp"
+
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:errorEnabled="true"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/view_event_image_layout"
+        tools:layout_editor_absoluteX="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date"
+            android:visibility="invisible"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_event_description"
+        android:layout_width="373dp"
+        android:layout_height="168dp"
+        android:layout_margin="8dp"
+
+        app:boxBackgroundColor="@color/design_default_color_background"
+        app:errorEnabled="true"
+
+        app:layout_constraintBottom_toTopOf="@+id/btn_property_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_created_at"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="168dp"
+            android:hint="Additional Comments"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_property_add"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="16dp"
+        android:text="Post New Map"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ProgressBar
+        android:id="@+id/pb_add_property"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
