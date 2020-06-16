@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.stepashka.buildinglocator">
+    package="com.stepashka.buildinglocator2">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -12,31 +12,31 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".util.AppController"
+        android:name="com.stepashka.buildinglocator2.util.AppController"
         android:allowBackup="true"
         android:icon="@drawable/mylogo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/mylogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ResetPassword"></activity>
-        <activity android:name=".PostMapActivity" />
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".ResetPassActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name="com.stepashka.buildinglocator2.ResetPassword"></activity>
+        <activity android:name="com.stepashka.buildinglocator2.PostMapActivity" />
+        <activity android:name="com.stepashka.buildinglocator2.DetailActivity" />
+        <activity android:name="com.stepashka.buildinglocator2.ResetPassActivity" />
+        <activity android:name="com.stepashka.buildinglocator2.RegisterActivity" />
 
         <meta-data
             android:name="CLOUDINARY_URL"
             android:value="cloudinary://@dpcjkgjfm" />
 
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.stepashka.buildinglocator2.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.stepashka.buildinglocator2.MainActivity" />
     </application>
 
 </manifest>
