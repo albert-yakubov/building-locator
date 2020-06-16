@@ -19,7 +19,8 @@
         android:roundIcon="@drawable/mylogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostMapActivity"></activity>
+        <activity android:name=".ResetPassword"></activity>
+        <activity android:name=".PostMapActivity" />
         <activity android:name=".DetailActivity" />
         <activity android:name=".ResetPassActivity" />
         <activity android:name=".RegisterActivity" />
