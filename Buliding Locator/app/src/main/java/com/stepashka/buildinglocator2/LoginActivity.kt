@@ -87,6 +87,24 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        btn_reset.setOnClickListener {
+            username = text_input_username.editText?.text.toString().trim()
+            if (username.isEmpty()) {
+
+                val builder = AlertDialog.Builder(this@LoginActivity)
+                builder.setTitle("Empty Username")
+                builder.setMessage("Please enter your username to continue")
+                builder.setNegativeButton("OK"){ dialogInterface, _ ->
+                    dialogInterface.dismiss()
+                }
+                builder.show()
+
+            }else{
+                val intent = Intent(this@LoginActivity, ResetPassActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
 
     }
     //Checks to see if the entered username is okay or not.
