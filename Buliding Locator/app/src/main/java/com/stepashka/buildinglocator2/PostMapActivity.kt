@@ -105,6 +105,8 @@ class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_map)
 
+        btn_property_add.visibility = View.INVISIBLE
+
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         //initiating date within saving the post
@@ -234,7 +236,7 @@ class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks
                 .unsigned("xyqfim3e")
                 .callback(object : UploadCallback {
                     override fun onStart(requestId: String) {
-                        Log.d(TAG, "onStart")
+                        Toast.makeText(this@PostMapActivity, "starting upload", Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
@@ -246,7 +248,7 @@ class PostMapActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallbacks
                         mCurrentPhotoPath = publicId
                         view_event_image.setText(mCurrentPhotoPath.replace("http://", "https://"))
                         Toast.makeText(this@PostMapActivity, "Upload successful", Toast.LENGTH_LONG).show()
-
+                        btn_property_add.visibility = View.VISIBLE
                     }
 
                     override fun onError(requestId: String, error: ErrorInfo) {
