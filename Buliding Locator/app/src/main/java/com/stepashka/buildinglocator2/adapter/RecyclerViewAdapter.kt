@@ -219,7 +219,10 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
 
 
     }
-
+    // for MVVM
+    fun addData(list: List<PostedMaps>) {
+        postedMaps?.addAll(list)
+    }
 
 
 
