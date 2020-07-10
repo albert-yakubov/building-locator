@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.stepashka.buildinglocator2.adapter.RecyclerViewAdapter
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiHelper
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiServiceImpl
@@ -32,6 +31,11 @@ class MainActivity2 : AppCompatActivity() {
         setupUI()
         setupViewModel()
         setupObserver()
+
+        searchButton.setOnClickListener {
+
+            setupObserverForSearch()
+        }
     }
     private fun setupUI() {
         vRecycle.layoutManager = LinearLayoutManager(this)
@@ -45,7 +49,29 @@ class MainActivity2 : AppCompatActivity() {
         vRecycle.adapter = adapter
     }
     private fun setupObserver() {
-        mainViewModel.getUsers().observe(this, Observer {
+        mainViewModel.getMaps().observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    progressBar?.visibility = View.GONE
+                    it.data?.let { users -> renderList(users) }
+                    vRecycle.visibility = View.VISIBLE
+                }
+                Status.LOADING -> {
+                    progressBar?.visibility = View.VISIBLE
+                    vRecycle.visibility = View.GONE
+                }
+                Status.ERROR -> {
+                    //Handle Error
+                    progressBar?.visibility = View.GONE
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+    }
+
+
+    private fun setupObserverForSearch() {
+        mainViewModel.getMapsByTitle().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBar?.visibility = View.GONE

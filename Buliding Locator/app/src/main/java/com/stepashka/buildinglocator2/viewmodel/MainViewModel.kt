@@ -12,34 +12,53 @@ import io.reactivex.schedulers.Schedulers
 
 class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
-    private val users = MutableLiveData<Resource<List<PostedMaps>>>()
+    private val maps = MutableLiveData<Resource<List<PostedMaps>>>()
     private val compositeDisposable = CompositeDisposable()
 
     init {
-        fetchUsers()
+        fetchMaps()
     }
 
-    private fun fetchUsers() {
-        users.postValue(Resource.loading(null))
+    private fun fetchMaps() {
+        maps.postValue(Resource.loading(null))
         compositeDisposable.add(
             mainRepository.getPostedMaps()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ userList ->
-                    users.postValue(Resource.success(userList))
+                .subscribe({ mapList ->
+                    maps.postValue(Resource.success(mapList))
                 }, { throwable ->
-                    users.postValue(Resource.error("Something Went Wrong", null))
+                    maps.postValue(Resource.error("Something Went Wrong", null))
                 })
         )
     }
+    private fun fetchMapsByTitle() {
+        maps.postValue(Resource.loading(null))
+        mainRepository.getMapsByTitle()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({ userList ->
+                maps.postValue(Resource.success(userList))
+            }, { throwable ->
+                maps.postValue(Resource.error("Something Went Wrong", null))
+            })?.let {
+                compositeDisposable.add(
+                    it
+            )
+            }
+    }
+
 
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
     }
 
-    fun getUsers(): LiveData<Resource<List<PostedMaps>>> {
-        return users
+    fun getMaps(): LiveData<Resource<List<PostedMaps>>> {
+        return maps
     }
 
+    fun getMapsByTitle() : LiveData<Resource<List<PostedMaps>>>{
+        return maps
+    }
 }
