@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity(){
 
 
     private lateinit var disposable: Disposable
-
     private lateinit var disposable2: Disposable
 
 
@@ -73,7 +72,6 @@ class MainActivity : AppCompatActivity(){
             if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
                 disposable = foundUserService.getFoundUser(searchedFor)
-
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ title   ->
