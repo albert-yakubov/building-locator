@@ -75,7 +75,7 @@ class MainActivity2 : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBar?.visibility = View.GONE
-                    it.data?.let { users -> renderList(users) }
+                    it.data?.let { maps -> renderList(maps) }
                     vRecycle.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {

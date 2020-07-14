@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(){
 
 
     @Inject
-    lateinit var foundUserService: LoginServiceSql
+    lateinit var callService: LoginServiceSql
     companion object{
         var map: MutableList<PostedMaps>? = null
         var title: String = ""
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(){
             val searchedFor = enterText.text.toString()
             if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
-                disposable = foundUserService.getFoundUser(searchedFor)
+                disposable = callService.getFoundUser(searchedFor)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ title   ->
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(){
             val searchedFor = enterText.text.toString()
             if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
-                disposable2 = foundUserService.getAddress(searchedFor)
+                disposable2 = callService.getAddress(searchedFor)
 
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
