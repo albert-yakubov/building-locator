@@ -58,7 +58,7 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         return maps
     }
 
-    fun getMapsByTitle() : LiveData<Resource<List<PostedMaps>>>{
+    fun getMapsByTitle(title: String): LiveData<Resource<List<PostedMaps>>>{
         return maps
     }
 }

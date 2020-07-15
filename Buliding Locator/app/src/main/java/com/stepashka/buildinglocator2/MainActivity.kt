@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity(){
 
 
         (application as AppController).appComponent.inject(this)
-        searchButton.setOnClickListener {
+        searchButton2.setOnClickListener {
             val searchedFor = enterText.text.toString()
             if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(){
             }
         }
 
-        searchButton.setOnLongClickListener {
+        searchButton2.setOnLongClickListener {
             val searchedFor = enterText.text.toString()
             if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
