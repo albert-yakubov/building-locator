@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(){
             val searchedFor = enterText.text.toString()
             if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
-                disposable = callService.getFoundUser(searchedFor)
+                disposable = callService.getTitle(searchedFor)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ title   ->

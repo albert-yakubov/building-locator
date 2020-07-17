@@ -22,6 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main2.*
+import kotlinx.android.synthetic.main.activity_post_map.*
 import javax.inject.Inject
 
 
@@ -45,7 +46,7 @@ class MainActivity2 : AppCompatActivity() {
         setupObserver()
         (application as AppController).appComponent.inject2(this)
         searchButton2.setOnClickListener {
-
+            setupObserverForSearchTitle()
             setupObserverForSearch()
             setupUI()
             setupViewModel()
@@ -87,13 +88,36 @@ class MainActivity2 : AppCompatActivity() {
 
     private fun setupObserverForSearch() {
         val searchedFor = enterText.text.toString()
-        if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)){
+        if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
+
             disposable2 = callService.getAddress(searchedFor)
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ title   ->
-                    if (title.isNotEmpty() ) {
+                .subscribe({ address ->
+                    if (address.isNotEmpty()) {
+                        vRecycle.adapter = RecyclerViewAdapter(address)
+                    } else {
+                        Toast.makeText(this, "address not found", Toast.LENGTH_SHORT).show()
+                    }
+                }, { t ->
+                    Log.i("Retrofit - ", "$t", t)
+                })
+        }else {
+            Toast.makeText(this, "Please enter something in search", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+    private fun setupObserverForSearchTitle() {
+        val searchedFor = enterText.text.toString()
+        if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
+
+            disposable2 = callService.getTitle(searchedFor)
+
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ title ->
+                    if (title.isNotEmpty()) {
                         vRecycle.adapter = RecyclerViewAdapter(title)
                     } else {
                         Toast.makeText(this, "address not found", Toast.LENGTH_SHORT).show()
@@ -107,29 +131,6 @@ class MainActivity2 : AppCompatActivity() {
 
     }
 
-
-
-                /*
-                .observe(this, Observer {
-                when (it.status) {
-                    Status.SUCCESS -> {
-                        progressBar?.visibility = View.GONE
-                        it.data?.let { maps -> renderList(maps) }
-                        vRecycle.visibility = View.VISIBLE
-                    }
-                    Status.LOADING -> {
-                        progressBar?.visibility = View.VISIBLE
-                        vRecycle.visibility = View.GONE
-                    }
-                    Status.ERROR -> {
-                        //Handle Error
-                        progressBar?.visibility = View.GONE
-                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                    }
-                }
-            })
-        }
-    }*/
     private fun renderList(postedMaps: List<PostedMaps>) {
         adapter.addData(postedMaps)
         adapter.notifyDataSetChanged()

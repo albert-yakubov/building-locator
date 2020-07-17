@@ -61,7 +61,7 @@ interface LoginServiceSql{
 
 
     @GET("postedmaps/postedmaps/title/like/{title}")
-    fun getFoundUser(@Path("title") title: String): Observable<MutableList<PostedMaps>>
+    fun getTitle(@Path("title") title: String): Observable<MutableList<PostedMaps>>
 
 
     @GET("postedmaps/postedmaps/address/like/{address}")
