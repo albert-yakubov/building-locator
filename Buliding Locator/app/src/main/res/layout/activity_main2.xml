@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/cl_activity_main_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:screenOrientation="portrait"
+    tools:context=".MainActivity">
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/view_floatingbutton"
+        android:layout_width="79dp"
+        android:layout_height="57dp"
+        android:layout_alignBottom="@+id/relativeLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="47dp"
+        android:src="@drawable/vector_add"
+        app:backgroundTint="@color/white"
+        app:elevation="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.938"
+        app:rippleColor="@color/white" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="#00FFFFFF"
+        android:theme="@style/AppThemeTransparent"
+        app:layout_constraintBottom_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundTint="#00FFFFFF"
+            android:background="#00FFFFFF"
+            android:padding="8dp"
+            android:touchscreenBlocksFocus="false">
+
+            <Button
+                android:id="@+id/searchButton2"
+                android:layout_width="57dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/vector_search"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.007" />
+
+            <EditText
+                android:id="@+id/enterText"
+                android:layout_width="290dp"
+                android:layout_height="35dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="102dp"
+                android:layout_weight="0.5"
+                android:background="#00FFFFFF"
+                android:textSize="12sp"
+                android:hint="Tap for title or hold for address"
+                app:layout_constraintEnd_toStartOf="@+id/searchButton2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/vRecycle"
+        android:layout_width="match_parent"
+        android:layout_height="677dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintVertical_bias="0.976"
+        tools:layout_editor_absoluteX="-10dp" >
+
+
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+
+
+
+
+
+
+</RelativeLayout>

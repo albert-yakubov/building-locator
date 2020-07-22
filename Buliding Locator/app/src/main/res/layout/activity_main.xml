@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:screenOrientation="portrait"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity3">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -46,7 +46,7 @@
             android:touchscreenBlocksFocus="false">
 
             <Button
-                android:id="@+id/searchButton"
+                android:id="@+id/searchButton2"
                 android:layout_width="57dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
@@ -72,7 +72,7 @@
                 android:background="#00FFFFFF"
                 android:textSize="12sp"
                 android:hint="Tap for title or hold for address"
-                app:layout_constraintEnd_toStartOf="@+id/searchButton"
+                app:layout_constraintEnd_toStartOf="@+id/searchButton2"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
