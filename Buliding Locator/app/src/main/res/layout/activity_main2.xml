@@ -8,20 +8,16 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:screenOrientation="portrait"
-    tools:context=".MainActivity2">
+    tools:context=".MainActivity">
 
-    <ProgressBar
-        android:visibility="invisible"
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/view_floatingbutton"
         android:layout_width="79dp"
         android:layout_height="57dp"
-        android:layout_alignBottom="@+id/vRecycle"
+        android:layout_alignBottom="@+id/relativeLayout"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="47dp"
@@ -86,6 +82,15 @@
         </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -97,8 +102,13 @@
         android:layout_marginTop="54dp"
         android:layout_marginBottom="0dp"
         app:layout_constraintVertical_bias="0.976"
-        tools:layout_editor_absoluteX="-10dp" />
+        tools:layout_editor_absoluteX="-10dp" >
 
+
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
 
 
 

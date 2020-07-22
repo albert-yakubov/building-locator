@@ -1,7 +1,7 @@
 package com.stepashka.buildinglocator2.dagger
 
+//import com.stepashka.buildinglocator2.MainActivity3
 import com.stepashka.buildinglocator2.MainActivity
-import com.stepashka.buildinglocator2.MainActivity2
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,6 +10,6 @@ import javax.inject.Singleton
 @Component(modules = [NetworkModule::class])
 interface NetworkComponent {
 
-    fun inject(activity: MainActivity)
-    fun inject2(activity: MainActivity2)
+    //fun inject(activity3: MainActivity3)
+    fun inject2(activity: MainActivity)
 }
