@@ -17,6 +17,7 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
             return Resource(Status.LOADING, data, null)
         }
 
+
     }
 
 }
