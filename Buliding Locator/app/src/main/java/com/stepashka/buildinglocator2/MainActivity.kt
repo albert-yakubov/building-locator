@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.stepashka.buildinglocator2.adapter.RecyclerViewAdapter
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiHelper
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiServiceImpl
+import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthViewModel
 import com.stepashka.buildinglocator2.models.PostedMaps
 import com.stepashka.buildinglocator2.services.LoginServiceSql
 import com.stepashka.buildinglocator2.uiMVVM.ViewModelFactory

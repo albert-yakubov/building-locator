@@ -9,7 +9,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
 
-interface MyAPI {
+interface LoginAPI {
 
     @FormUrlEncoded
     @POST("login?grant_type=password&client_id=lambdaclient&client_secret=lambdasecret")
@@ -17,11 +17,11 @@ interface MyAPI {
               @Field("username") username: String, @Field("password") password: String) : Call<ResponseBody>
 
     companion object{
-        operator fun invoke() : MyAPI{
+        operator fun invoke() : LoginAPI{
             return Retrofit.Builder().baseUrl("https://ay-my-location.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(MyAPI::class.java)
+                .create(LoginAPI::class.java)
         }
 
     }

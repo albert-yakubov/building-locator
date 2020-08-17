@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel"
+            type="com.stepashka.buildinglocator2.loginMVVMnetwork.AuthViewModel"/>
+    </data>
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    android:screenOrientation="portrait"
-    tools:context=".LoginActivity">
-
+    android:screenOrientation="portrait">
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -26,6 +36,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:hint="Username"
+            android:onTextChanged="@{viewModel::onEmailChanged}"
+            android:text="@={viewModel.username}"
+
             android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -49,6 +62,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:inputType="textPassword"
             android:hint="Password"
+            android:onTextChanged="@{viewModel::onPasswordChanged}"
+            android:text="@={viewModel.password}"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -68,6 +84,8 @@
     <Button
         android:id="@+id/btn_login"
         android:text="Login"
+        android:enabled="@{viewModel.btnSelected}"
+        android:onClick="@{()->viewModel.login()}"
         android:background="@drawable/rounded_button_settings"
         app:layout_constraintTop_toBottomOf="@id/text_input_password"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -91,7 +109,6 @@
 
     <Button
         android:id="@+id/btn_reset"
-
         android:layout_width="175dp"
         android:layout_height="22dp"
         android:layout_margin="16dp"
@@ -102,3 +119,4 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

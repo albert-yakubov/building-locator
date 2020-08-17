@@ -6,6 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+    kapt.includeCompileClasspath = false
 
     defaultConfig {
         applicationId "com.stepashka.buildinglocator2"
@@ -27,6 +28,10 @@ android {
 
             }
         }
+        configurations.all() {
+            resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
+            resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
+        }
     }
 
     buildTypes {
@@ -35,6 +40,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
+
 
 }
 
@@ -64,11 +73,11 @@ dependencies {
 
     androidTestImplementation 'androidx.test:runner:1.2.0'
 
-    def room_version = '2.2.3'
+    def room_version = '2.2.5'
     def aac_version = "1.1.1"
 
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
     implementation 'com.google.android.material:material:1.2.0-beta01'
@@ -91,6 +100,7 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.26'
     kapt 'com.google.dagger:dagger-compiler:2.26'
 
+    annotationProcessor "com.android.databinding:compiler:3.1.4"
 
     implementation 'com.google.android.exoplayer:exoplayer:2.6.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.6.0'

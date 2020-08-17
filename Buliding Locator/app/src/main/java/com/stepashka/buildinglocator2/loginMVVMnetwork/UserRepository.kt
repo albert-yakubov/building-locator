@@ -2,6 +2,7 @@ package com.stepashka.buildinglocator2.loginMVVMnetwork
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.stepashka.buildinglocator2.LoginActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +16,7 @@ class UserRepository{
         val loginResponseMVVM = MutableLiveData<String>()
 
         // inject user login function
-        MyAPI().loginMVVM(auth, content_type, username, password).enqueue(object : Callback<ResponseBody>{
+        LoginAPI().loginMVVM(auth, content_type, username, password).enqueue(object : Callback<ResponseBody>{
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 loginResponseMVVM.value = t.message
             }
@@ -31,4 +32,33 @@ class UserRepository{
     return loginResponseMVVM
     }
 
+
+    fun validateUsername(): Boolean {
+        //Gets the text from the username text input layout
+
+        return when {
+            LoginActivity.username.isEmpty() -> {
+
+                false
+            }
+            LoginActivity.username.length < 4 -> {
+                false
+            }
+            else -> LoginActivity.username.length <= 12
+        }
+    }
+
+    fun validatePassword(): Boolean {//Gets the text from the password text input layout
+
+       return when {
+            LoginActivity.password.isEmpty() -> {
+
+                false
+            }
+            LoginActivity.password.length < 4 -> {
+                false
+            }
+            else -> LoginActivity.password.length <= 12
+        }
+    }
 }

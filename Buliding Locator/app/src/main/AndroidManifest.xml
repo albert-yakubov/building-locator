@@ -19,11 +19,8 @@
         android:roundIcon="@drawable/mylogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
 
-
-        </activity>
-
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".PostMapActivity" />
         <activity android:name=".DetailActivity" />
         <activity android:name=".ResetPassActivity" />
@@ -40,7 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity android:name=".MainActivity3" />-->
     </application>
 
 </manifest>

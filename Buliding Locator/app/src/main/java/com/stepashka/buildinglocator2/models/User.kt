@@ -1,8 +1,12 @@
 package com.stepashka.buildinglocator2.models
 
+import android.text.TextUtils
+import android.util.Patterns
+import androidx.databinding.BaseObservable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.stepashka.buildinglocator2.enum.errorcodes
 import java.io.Serializable
 
 
@@ -56,7 +60,35 @@ class ResetPassword(
 
 
 )
+class UserObservable(private var username: String, private var password: String) : BaseObservable() {
+    fun getpasssword(): String {
+        return this.password
+    }
 
+    fun getusername(): String {
+        return this.username
+    }
+
+    fun setpassword(password: String) {
+        this.password = password
+    }
+
+    fun setusername(username: String) {
+        this.username = username
+    }
+
+    fun isvalidData(): errorcodes {
+
+        if (TextUtils.isEmpty(password))
+            return errorcodes.passwordempty
+        else if (TextUtils.isEmpty(username))
+            return errorcodes.username_empty
+        else if (password.length < 5)
+            return errorcodes.invalid_password_length_less5
+        else
+            return errorcodes.valid
+    }
+}
 
 
 
