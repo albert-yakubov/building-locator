@@ -1,39 +1,41 @@
 package com.stepashka.buildinglocator2
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.stepashka.buildinglocator2.databinding.ActivityLoginBinding
+import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthListener
 import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthViewModel
-import com.stepashka.buildinglocator2.services.ServiceBuilder
-
+import com.stepashka.buildinglocator2.util.Util
+import com.stepashka.buildinglocator2.util.toast
 import kotlinx.android.synthetic.main.activity_login.*
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
-class LoginActivity : AppCompatActivity() {
-    companion object{
+class LoginActivity : AppCompatActivity(), AuthListener {
+    private val TAG = "LoginActivity"
+    companion object {
         var successfulLogin: Boolean = false
         var content_type = "application/x-www-form-urlencoded"
+
         //var content_type = "application/json"
-        const val CLIENT_ID = "lambdaclient"
-        const val CLIENT_SECRET = "lambdasecret"
+        const val CLIENT_ID = R.string.miinibio
+        const val CLIENT_SECRET = R.string.miinisecret
 
 
         var authString = "$CLIENT_ID:$CLIENT_SECRET"
-        var encodedAuthString: String = Base64.encodeToString(authString.toByteArray(), Base64.NO_WRAP)
+        var encodedAuthString: String =
+            Base64.encodeToString(authString.toByteArray(), Base64.NO_WRAP)
         var auth = "Basic $encodedAuthString"
+
         // login viewModel
         private lateinit var loginViewModel: AuthViewModel
 
@@ -61,6 +63,9 @@ class LoginActivity : AppCompatActivity() {
 
         viewmodel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         binding?.viewModel = viewmodel
+        viewmodel!!.authListener = this
+
+
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
@@ -68,31 +73,28 @@ class LoginActivity : AppCompatActivity() {
         progress_login.visibility = View.INVISIBLE
 
         btn_login.setOnClickListener {
-            btn_login.visibility= View.INVISIBLE
+
             progress_login.visibility = View.VISIBLE
+
 //            validateUsername()
 //            validatePassword()
             //login()
 
         }
+
         btn_register.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
 
         }
+
         btn_reset.setOnClickListener {
             username = text_input_username.editText?.text.toString().trim()
             if (username.isEmpty()) {
 
-                val builder = AlertDialog.Builder(this@LoginActivity)
-                builder.setTitle("Empty Username")
-                builder.setMessage("Please enter your username to continue")
-                builder.setNegativeButton("OK"){ dialogInterface, _ ->
-                    dialogInterface.dismiss()
-                }
-                builder.show()
+                Util.showResetAlert(context =this)
 
-            }else{
+            } else {
                 val intent = Intent(this@LoginActivity, ResetPassActivity::class.java)
                 startActivity(intent)
             }
@@ -101,15 +103,9 @@ class LoginActivity : AppCompatActivity() {
             username = text_input_username.editText?.text.toString().trim()
             if (username.isEmpty()) {
 
-                val builder = AlertDialog.Builder(this@LoginActivity)
-                builder.setTitle("Empty Username")
-                builder.setMessage("Please enter your username to continue")
-                builder.setNegativeButton("OK"){ dialogInterface, _ ->
-                    dialogInterface.dismiss()
-                }
-                builder.show()
+                Util.showResetAlert(context =this)
 
-            }else{
+            } else {
                 val intent = Intent(this@LoginActivity, ResetPassActivity::class.java)
                 startActivity(intent)
             }
@@ -117,6 +113,32 @@ class LoginActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onStarted() {
+        toast("Login started")
+    }
+
+    override fun onSuccess(loginResponse: LiveData<String>) {
+        loginResponse.observe(this, Observer {
+            toast(it)
+            Log.i(TAG, "Login response via Live Data = $it")
+            // sending user to tab home activity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
+        })
+    }
+
+    override fun onFailure(message: String) {
+        toast(message)
+    }
+
+
+}
+
+
+
 //    fun validatePassword(): Boolean {//Gets the text from the password text input layout
 //
 //        return when {
@@ -244,4 +266,3 @@ class LoginActivity : AppCompatActivity() {
 //        })
 //    }
 
-}
