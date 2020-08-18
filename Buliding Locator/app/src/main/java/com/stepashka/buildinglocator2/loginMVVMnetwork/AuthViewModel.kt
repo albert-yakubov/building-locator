@@ -1,31 +1,37 @@
 package com.stepashka.buildinglocator2.loginMVVMnetwork
 
-import android.app.AlertDialog
 import android.app.Application
+import android.content.Context
 import android.content.Intent
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Base64
-import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.stepashka.buildinglocator2.LoginActivity
 import com.stepashka.buildinglocator2.MainActivity
-
 import com.stepashka.buildinglocator2.models.UserObservable
 import com.stepashka.buildinglocator2.services.ServiceBuilder
 import com.stepashka.buildinglocator2.util.Util
-import retrofit2.Callback
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.log
 
-class AuthViewModel(application: Application) : AndroidViewModel(application), Callback<UserObservable> {
 
+class AuthViewModel(application: Application) : AndroidViewModel(application){
+
+    private var context: Context? = null
+    var authListener : AuthListener? = null
+    fun LoginViewModel(context: Context?) {
+        this.context = context
+    }
     companion object{
+
         var successfulLogin: Boolean = false
         var content_type = "application/x-www-form-urlencoded"
         //var content_type = "application/json"
@@ -73,9 +79,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application), C
 
     }
 
+
     fun login(){
 
-
+        authListener?.onStarted()
         val call: Call<ResponseBody> = ServiceBuilder.create()
             .login( auth, content_type, username.toString(), password.toString() )
 
@@ -89,20 +96,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application), C
                 successfulLogin = response.isSuccessful
 
                 if(successfulLogin){
+                    val loginResponse = UserRepository().userLoginMVVM( auth, content_type, username.toString(), password.toString())
                     successfulLogin = false
-
+                    authListener?.onSuccess(loginResponse)
                 }
             }
 
         })
-    }
-
-    override fun onFailure(call: Call<UserObservable>, t: Throwable) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onResponse(call: Call<UserObservable>, response: Response<UserObservable>) {
-        TODO("Not yet implemented")
     }
 
 }
