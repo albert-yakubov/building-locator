@@ -13,8 +13,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.stepashka.buildinglocator2.LoginActivity
 import com.stepashka.buildinglocator2.MainActivity
+import com.stepashka.buildinglocator2.R
 import com.stepashka.buildinglocator2.models.UserObservable
 import com.stepashka.buildinglocator2.services.ServiceBuilder
+import com.stepashka.buildinglocator2.util.SingleLiveEvent
 import com.stepashka.buildinglocator2.util.Util
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -35,8 +37,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
         var successfulLogin: Boolean = false
         var content_type = "application/x-www-form-urlencoded"
         //var content_type = "application/json"
-        const val CLIENT_ID = "lambdaclient"
-        const val CLIENT_SECRET = "lambdasecret"
+        private const val CLIENT_ID = "lambdaclient"
+
+        private const val CLIENT_SECRET = "lambdasecret"
 
 
         var authString = "$CLIENT_ID:$CLIENT_SECRET"
@@ -58,10 +61,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
     var btnSelected: ObservableBoolean? = null
     var username: String? = null
     var password: String? = null
+    var progressDialog: SingleLiveEvent<Boolean>? = null
+
     var userLogin: MutableLiveData<UserObservable>? = null
 
     init {
         btnSelected = ObservableBoolean(false)
+        progressDialog = SingleLiveEvent<Boolean>()
         username = ""
         password = ""
         userLogin = MutableLiveData<UserObservable>()
@@ -81,19 +87,22 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
 
 
     fun login(){
-
+        progressDialog?.value = true
         authListener?.onStarted()
         val call: Call<ResponseBody> = ServiceBuilder.create()
             .login( auth, content_type, username.toString(), password.toString() )
 
         call.enqueue(object: Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                progressDialog?.value = false
 
+                login()
 
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 successfulLogin = response.isSuccessful
+                progressDialog?.value = false
 
                 if(successfulLogin){
                     val loginResponse = UserRepository().userLoginMVVM( auth, content_type, username.toString(), password.toString())
