@@ -18,6 +18,7 @@ import com.stepashka.buildinglocator2.models.PostedMaps
 import com.stepashka.buildinglocator2.services.LoginServiceSql
 import com.stepashka.buildinglocator2.uiMVVM.ViewModelFactory
 import com.stepashka.buildinglocator2.util.AppController
+import com.stepashka.buildinglocator2.util.CustomeProgressDialog
 import com.stepashka.buildinglocator2.util.Status
 import com.stepashka.buildinglocator2.viewmodel.MainViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -51,13 +52,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var disposable2: Disposable
 
+
     @Inject
     lateinit var callService: LoginServiceSql
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         view_floatingbutton.setOnClickListener {
             val intent = Intent(this, PostMapActivity::class.java)
@@ -164,5 +165,6 @@ class MainActivity : AppCompatActivity() {
             ViewModelFactory(ApiHelper(ApiServiceImpl()))
         ).get(MainViewModel::class.java)
     }
+
 
 }

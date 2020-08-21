@@ -87,10 +87,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -108,10 +105,14 @@
 
 
     </androidx.recyclerview.widget.RecyclerView>
+
     </RelativeLayout>
 
 
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 
