@@ -20,6 +20,7 @@ import com.stepashka.buildinglocator2.uiMVVM.ViewModelFactory
 import com.stepashka.buildinglocator2.util.AppController
 import com.stepashka.buildinglocator2.util.CustomeProgressDialog
 import com.stepashka.buildinglocator2.util.Status
+import com.stepashka.buildinglocator2.util.toast
 import com.stepashka.buildinglocator2.viewmodel.MainViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -122,10 +123,10 @@ class MainActivity : AppCompatActivity() {
                     if (address.isNotEmpty()) {
                         vRecycle.adapter = RecyclerViewAdapter(address)
                     } else {
-                        Toast.makeText(this, "address not found", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Looking...", Toast.LENGTH_SHORT).show()
                     }
                 }, { t ->
-                    Log.i("Retrofit - ", "$t", t)
+                    toast("$t")
                 })
         }else {
             Toast.makeText(this, "Please enter something in search", Toast.LENGTH_SHORT).show()
@@ -144,10 +145,10 @@ class MainActivity : AppCompatActivity() {
                     if (title.isNotEmpty()) {
                         vRecycle.adapter = RecyclerViewAdapter(title)
                     } else {
-                        Toast.makeText(this, "address not found", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "looking...", Toast.LENGTH_SHORT).show()
                     }
                 }, { t ->
-                    Log.i("Retrofit - ", "$t", t)
+                    toast("$t")
                 })
         }else {
             Toast.makeText(this, "Please enter something in search", Toast.LENGTH_SHORT).show()
