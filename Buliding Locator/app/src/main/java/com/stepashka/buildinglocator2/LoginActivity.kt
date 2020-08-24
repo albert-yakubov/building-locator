@@ -114,13 +114,12 @@ class LoginActivity : AppCompatActivity(), AuthListener {
     }
 
     override fun onStarted() {
-        toast("Login started")
+        toast("logging in...")
     }
 
     override fun onSuccess(loginResponse: LiveData<String>) {
         loginResponse.observe(this, Observer {
             toast(it)
-            Log.i(TAG, "Login response via Live Data = $it")
             // sending user to tab home activity
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -133,13 +132,13 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         toast(message)
     }
 
-    fun initObservables() {
+    private fun initObservables() {
         viewmodel?.progressDialog?.observe(this, Observer {
             if (it!!) customeProgressDialog?.show() else customeProgressDialog?.dismiss()
         })
 
-        viewmodel?.userLogin?.observe(this, Observer { user ->
-            Toast.makeText(this, "welcome, ${username}", Toast.LENGTH_LONG).show()
+        viewmodel?.userLogin?.observe(this, Observer {
+            Toast.makeText(this, "welcome, $username", Toast.LENGTH_LONG).show()
         })
     }
 }
