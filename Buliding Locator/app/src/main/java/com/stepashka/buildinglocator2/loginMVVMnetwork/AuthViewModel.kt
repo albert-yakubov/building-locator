@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.util.Base64
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -16,6 +17,7 @@ import com.stepashka.buildinglocator2.MainActivity
 import com.stepashka.buildinglocator2.R
 import com.stepashka.buildinglocator2.models.UserObservable
 import com.stepashka.buildinglocator2.services.ServiceBuilder
+import com.stepashka.buildinglocator2.util.ErrorUtils
 import com.stepashka.buildinglocator2.util.SingleLiveEvent
 import com.stepashka.buildinglocator2.util.Util
 import okhttp3.ResponseBody
@@ -92,7 +94,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
         val call: Call<ResponseBody> = ServiceBuilder.create()
             .login( auth, content_type, username.toString(), password.toString() )
 
-        call.enqueue(object: Callback<ResponseBody> {
+        call.enqueue(object : Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 progressDialog?.value = false
 
@@ -101,13 +103,30 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
+
                 successfulLogin = response.isSuccessful
                 progressDialog?.value = false
 
-                if(successfulLogin){
-                    val loginResponse = UserRepository().userLoginMVVM( auth, content_type, username.toString(), password.toString())
+                if (successfulLogin) {
+                    val loginResponse = UserRepository().userLoginMVVM(
+                        auth,
+                        content_type,
+                        username.toString(),
+                        password.toString()
+                    )
                     successfulLogin = false
                     authListener?.onSuccess(loginResponse)
+
+
+                } else {
+                    Toast.makeText(
+                        this@AuthViewModel.getApplication(),
+                        "Please check username and password!",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+
                 }
             }
 
