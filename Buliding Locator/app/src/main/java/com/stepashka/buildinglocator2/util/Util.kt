@@ -34,6 +34,15 @@ abstract class Util {
             }
             builder.show()
         }
+        fun showWrongPasswordAlert(context: Context) {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Check")
+            builder.setMessage("Username or password!")
+            builder.setNegativeButton("OK") { dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            builder.show()
+        }
     }
 
 

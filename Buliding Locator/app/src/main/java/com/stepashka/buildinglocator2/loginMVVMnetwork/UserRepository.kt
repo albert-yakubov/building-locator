@@ -1,9 +1,12 @@
 package com.stepashka.buildinglocator2.loginMVVMnetwork
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.stepashka.buildinglocator2.LoginActivity
+import com.stepashka.buildinglocator2.util.Util
 import okhttp3.ResponseBody
+import org.jetbrains.anko.internals.AnkoInternals.getContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +25,7 @@ class UserRepository{
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+
                 if (response.isSuccessful){
                     loginResponseMVVM.value = response.body()?.toString()
                 }else{

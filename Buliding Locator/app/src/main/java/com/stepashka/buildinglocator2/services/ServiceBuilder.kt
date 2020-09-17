@@ -1,5 +1,6 @@
 package com.stepashka.buildinglocator2.services
 
+import com.stepashka.buildinglocator2.services.LoginServiceSql.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -13,6 +14,7 @@ class ServiceBuilder {
 
 
 
+        private var retrofit: Retrofit? = null
 
 
         fun create(): LoginServiceSql {
@@ -34,6 +36,7 @@ class ServiceBuilder {
 
                 .build()
 
+
             val retrofit = Retrofit.Builder()
 
                 .client(okHttpClient)
@@ -50,6 +53,8 @@ class ServiceBuilder {
         }
 
     }
+
+
 
 
 

@@ -134,7 +134,8 @@ class LoginActivity : AppCompatActivity(), AuthListener {
 
     private fun initObservables() {
         viewmodel?.progressDialog?.observe(this, Observer {
-            if (it!!) customeProgressDialog?.show() else customeProgressDialog?.dismiss()
+            if (it!!){ customeProgressDialog?.show() }else{ customeProgressDialog?.dismiss()
+            }
         })
 
         viewmodel?.userLogin?.observe(this, Observer {
