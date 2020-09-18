@@ -123,10 +123,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
                     Toast.makeText(
                         this@AuthViewModel.getApplication(),
                         "Please check username and password!",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
-
+                        Toast.LENGTH_LONG).show()
                 }
             }
 
