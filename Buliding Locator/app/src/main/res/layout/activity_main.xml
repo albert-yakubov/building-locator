@@ -11,23 +11,7 @@
     tools:context=".MainActivity">
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/view_floatingbutton"
-        android:layout_width="79dp"
-        android:layout_height="57dp"
-        android:layout_alignBottom="@+id/vRecycle"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="47dp"
-        android:src="@drawable/vector_add"
-        app:backgroundTint="@color/white"
-        app:elevation="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.904"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.938"
-        app:rippleColor="@color/white" />
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -52,7 +36,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="4dp"
                 android:background="@drawable/vector_search"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +54,7 @@
                 android:layout_weight="0.5"
                 android:background="#00FFFFFF"
                 android:textSize="12sp"
-                android:hint="Tap for title or hold for address"
+                android:hint="Search by address or complex name"
                 app:layout_constraintEnd_toStartOf="@+id/searchButton2"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +63,10 @@
         </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+<RelativeLayout
+    android:id="@+id/recycles_relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -91,11 +78,48 @@
         android:layout_marginTop="54dp"
         android:layout_marginBottom="0dp"
         app:layout_constraintVertical_bias="0.976"
-        tools:layout_editor_absoluteX="-10dp" />
+        tools:layout_editor_absoluteX="-10dp" >
 
 
 
 
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ProgressBar
+
+        android:id="@+id/progress_news_feed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/vRecycle"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="173dp"
+        android:layout_marginTop="327dp"
+        android:layout_marginEnd="190dp"
+        android:layout_marginBottom="302dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/view_floatingbutton"
+        android:layout_width="79dp"
+        android:layout_height="57dp"
+        android:layout_alignBottom="@+id/vRecycle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="47dp"
+        android:src="@drawable/vector_add"
+        app:backgroundTint="@color/white"
+        app:elevation="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.904"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.938"
+        app:rippleColor="@color/white" />
+
+</RelativeLayout>
 
 
 

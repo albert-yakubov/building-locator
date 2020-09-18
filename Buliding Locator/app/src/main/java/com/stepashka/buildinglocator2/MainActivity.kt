@@ -25,6 +25,7 @@ import com.stepashka.buildinglocator2.viewmodel.MainViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.activity_main2.enterText
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var disposable2: Disposable
 
+    var customProgressDialog: CustomeProgressDialog? = null
 
     @Inject
     lateinit var callService: LoginServiceSql
@@ -60,6 +62,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        progress_news_feed.visibility = View.INVISIBLE
+
+        customProgressDialog = CustomeProgressDialog(this)
 
         view_floatingbutton.setOnClickListener {
             val intent = Intent(this, PostMapActivity::class.java)
@@ -79,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun setupUI() {
+
         vRecycle.layoutManager = LinearLayoutManager(this)
         adapter = RecyclerViewAdapter(arrayListOf())
         vRecycle.addItemDecoration(
@@ -93,17 +99,16 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getMaps().observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    progressBar?.visibility = View.GONE
+                    customProgressDialog?.dismiss()
                     it.data?.let { users -> renderList(users) }
                     vRecycle.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {
-                    progressBar?.visibility = View.VISIBLE
+                    customProgressDialog?.show()
                     vRecycle.visibility = View.GONE
                 }
                 Status.ERROR -> {
                     //Handle Error
-                    progressBar?.visibility = View.GONE
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
             }
@@ -112,6 +117,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupObserverForSearch() {
+        customProgressDialog?.dismiss()
+
         val searchedFor = enterText.text.toString()
         if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
@@ -121,19 +128,27 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ address ->
                     if (address.isNotEmpty()) {
+                        customProgressDialog?.dismiss()
+
                         vRecycle.adapter = RecyclerViewAdapter(address)
                     } else {
+                        customProgressDialog?.show()
+
                         Toast.makeText(this, "Looking...", Toast.LENGTH_SHORT).show()
                     }
                 }, { t ->
                     toast("$t")
                 })
         }else {
+            customProgressDialog?.dismiss()
+
             Toast.makeText(this, "Please enter something in search", Toast.LENGTH_SHORT).show()
         }
 
     }
     private fun setupObserverForSearchTitle() {
+        customProgressDialog?.dismiss()
+
         val searchedFor = enterText.text.toString()
         if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
@@ -143,20 +158,29 @@ class MainActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ title ->
                     if (title.isNotEmpty()) {
+                        customProgressDialog?.dismiss()
+
                         vRecycle.adapter = RecyclerViewAdapter(title)
                     } else {
+                        customProgressDialog?.show()
+
                         Toast.makeText(this, "looking...", Toast.LENGTH_SHORT).show()
                     }
                 }, { t ->
+                    customProgressDialog?.dismiss()
+
                     toast("$t")
                 })
         }else {
+            customProgressDialog?.dismiss()
+
             Toast.makeText(this, "Please enter something in search", Toast.LENGTH_SHORT).show()
         }
 
     }
 
     private fun renderList(postedMaps: List<PostedMaps>) {
+
         adapter.addData(postedMaps)
         adapter.notifyDataSetChanged()
     }
