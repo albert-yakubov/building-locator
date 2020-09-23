@@ -104,7 +104,6 @@ class MainActivity : AppCompatActivity() {
                     vRecycle.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {
-                    customProgressDialog?.show()
                     vRecycle.visibility = View.GONE
                 }
                 Status.ERROR -> {
@@ -132,8 +131,6 @@ class MainActivity : AppCompatActivity() {
 
                         vRecycle.adapter = RecyclerViewAdapter(address)
                     } else {
-                        customProgressDialog?.show()
-
                         Toast.makeText(this, "Looking...", Toast.LENGTH_SHORT).show()
                     }
                 }, { t ->
@@ -162,7 +159,6 @@ class MainActivity : AppCompatActivity() {
 
                         vRecycle.adapter = RecyclerViewAdapter(title)
                     } else {
-                        customProgressDialog?.show()
 
                         Toast.makeText(this, "looking...", Toast.LENGTH_SHORT).show()
                     }
