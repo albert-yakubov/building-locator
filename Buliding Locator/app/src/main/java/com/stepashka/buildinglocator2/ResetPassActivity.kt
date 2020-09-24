@@ -30,6 +30,8 @@ class ResetPassActivity : AppCompatActivity() {
 
 
 
+
+    
     var minibio2 = "I am not so nice"
 
     var location2 = "Denver"
