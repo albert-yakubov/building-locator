@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.navigation.NavigationView
 import com.stepashka.buildinglocator2.adapter.RecyclerViewAdapter
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiHelper
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiServiceImpl
@@ -58,10 +62,23 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var callService: LoginServiceSql
-
+    private var mDrawerLayout: DrawerLayout? = null
+    private var mNavigationView: NavigationView? = null
+    private var toolbar: Toolbar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        mDrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
+        mNavigationView = findViewById<NavigationView>(R.id.navigationView)
+
+
+        val mDrawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name)
+        mDrawerLayout!!.addDrawerListener(mDrawerToggle)
+        mDrawerToggle.syncState()
+
         progress_news_feed.visibility = View.INVISIBLE
 
         customProgressDialog = CustomeProgressDialog(this)
