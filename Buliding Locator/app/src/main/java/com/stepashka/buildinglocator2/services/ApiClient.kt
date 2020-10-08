@@ -16,6 +16,7 @@ class ApiClient {
             .connectTimeout(90, TimeUnit.SECONDS)
             .writeTimeout(90, TimeUnit.SECONDS)
             .readTimeout(90, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
             .build()
 
         fun  apiClient(): Retrofit {
