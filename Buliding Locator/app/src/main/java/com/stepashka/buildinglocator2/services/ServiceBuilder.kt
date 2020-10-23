@@ -30,9 +30,10 @@ class ServiceBuilder {
 
                 .retryOnConnectionFailure(true)
 
-                .readTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.MINUTES) // write timeout
 
-                .connectTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(100, TimeUnit.SECONDS)
 
                 .build()
 
