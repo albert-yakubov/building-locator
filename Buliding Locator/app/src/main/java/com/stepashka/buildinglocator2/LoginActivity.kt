@@ -2,10 +2,10 @@ package com.stepashka.buildinglocator2
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -61,11 +61,20 @@ class LoginActivity : AppCompatActivity(), AuthListener {
     var customeProgressDialog: CustomeProgressDialog? = null
 
 
+    // trying to remember the user with shared prefs:
+    var sp: SharedPreferences? = null
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
+        sp = getSharedPreferences("login", MODE_PRIVATE)
+
+        if(sp!!.getBoolean("logged",false)){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         viewmodel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         binding?.viewModel = viewmodel
         viewmodel!!.authListener = this
@@ -81,6 +90,7 @@ class LoginActivity : AppCompatActivity(), AuthListener {
 
 
 
+
         btn_register.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
@@ -91,7 +101,7 @@ class LoginActivity : AppCompatActivity(), AuthListener {
             username = text_input_username.editText?.text.toString().trim()
             if (username.isEmpty()) {
 
-                Util.showResetAlert(context =this)
+                Util.showResetAlert(context = this)
 
             } else {
                 val intent = Intent(this@LoginActivity, ResetPassActivity::class.java)
@@ -102,7 +112,7 @@ class LoginActivity : AppCompatActivity(), AuthListener {
             username = text_input_username.editText?.text.toString().trim()
             if (username.isEmpty()) {
 
-                Util.showResetAlert(context =this)
+                Util.showResetAlert(context = this)
 
             } else {
                 val intent = Intent(this@LoginActivity, ResetPassActivity::class.java)
@@ -121,11 +131,15 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         loginResponse.observe(this, Observer {
             toast(it)
             // sending user to tab home activity
+            sp?.edit()?.putBoolean("logged",true)?.apply();
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
 
+
         })
+
     }
 
     override fun onFailure(message: String) {
@@ -134,7 +148,10 @@ class LoginActivity : AppCompatActivity(), AuthListener {
 
     private fun initObservables() {
         viewmodel?.progressDialog?.observe(this, Observer {
-            if (it!!){ customeProgressDialog?.show() }else{ customeProgressDialog?.dismiss()
+            if (it!!) {
+                customeProgressDialog?.show()
+            } else {
+                customeProgressDialog?.dismiss()
             }
         })
 
