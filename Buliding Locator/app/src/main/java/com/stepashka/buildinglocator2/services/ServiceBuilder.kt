@@ -33,7 +33,7 @@ class ServiceBuilder {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.MINUTES) // write timeout
 
-                .connectTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(1, TimeUnit.MINUTES)
 
                 .build()
 
