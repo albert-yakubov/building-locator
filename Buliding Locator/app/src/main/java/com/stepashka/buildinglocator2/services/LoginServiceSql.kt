@@ -71,6 +71,9 @@ interface LoginServiceSql{
     @GET("postedmaps/postedmaps/{id}")
     fun getById(@Path("id") id: Long): Call<PostedMaps>
 
+    @GET("postedmaps/postedmaps/title/like/{title}")
+    fun getTitle2(@Path("title") title: String): Call<PostedMaps>
+
     companion object {
 
         const val BASE_URL = "https://ay-my-location.herokuapp.com/"

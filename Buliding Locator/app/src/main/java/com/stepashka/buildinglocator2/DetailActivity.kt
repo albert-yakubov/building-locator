@@ -8,12 +8,19 @@ import android.widget.Toast
 import com.squareup.picasso.Picasso
 import com.stepashka.buildinglocator2.adapter.RecyclerViewAdapter
 import com.stepashka.buildinglocator2.models.PostedMaps
+import com.stepashka.buildinglocator2.services.LoginServiceSql
 import com.stepashka.buildinglocator2.services.ServiceBuilder
+import com.stepashka.buildinglocator2.util.toast
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.activity_main2.*
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
 
@@ -21,6 +28,9 @@ class DetailActivity : AppCompatActivity() {
         var PASSID: Long = 1
         var IMAGEME = ""
     }
+    private lateinit var disposable2: Disposable
+    @Inject
+    lateinit var callService: LoginServiceSql
 
     var primaryemail = ""
     var ulatitude: Double = 0.0
@@ -33,9 +43,16 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+
+
         getMapById()
+
     }
-        fun getMapById() {
+
+
+    var map = RecyclerViewAdapter.mapid
+
+    fun getMapById() {
 
             val call: Call<PostedMaps> = ServiceBuilder.create().getById(RecyclerViewAdapter.mapid)
 
@@ -66,6 +83,38 @@ class DetailActivity : AppCompatActivity() {
             })
 
         }
+
+//    fun getMapById2() {
+//        val profileName=intent.getStringExtra("Key")
+//        val call: Call<PostedMaps> = ServiceBuilder.create().getTitle2(profileName)
+//
+//        call.enqueue(object : Callback<PostedMaps> {
+//            override fun onFailure(call: Call<PostedMaps>, t: Throwable) {
+//            }
+//
+//            override fun onResponse(call: Call<PostedMaps>, response: Response<PostedMaps>) {
+//                if (response.isSuccessful) {
+//
+//                    val profilePictureSfx = response.body()?.map ?: ""
+//
+//                    if ((profilePictureSfx.endsWith("jpeg")) ||
+//                        (profilePictureSfx.endsWith("jpg")) ||
+//                        (profilePictureSfx.endsWith("png")) ||
+//                        (profilePictureSfx.contains("auto"))
+//                    ) {
+//                        Picasso.get().load(profilePictureSfx).into(MAPME)
+//
+//                    }
+//
+//                } else {
+//                    Toast.makeText(this@DetailActivity, "Noooo", Toast.LENGTH_SHORT).show()
+//                }
+//
+//            }
+//
+//        })
+//
+//    }
     }
 
 
