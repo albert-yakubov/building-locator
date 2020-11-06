@@ -4,10 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -40,7 +42,7 @@ import kotlinx.android.synthetic.main.activity_post_map.*
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelectedListener {
 
     companion object{
         var map: MutableList<PostedMaps>? = null
@@ -73,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         mDrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
         mNavigationView = findViewById<NavigationView>(R.id.navigationView)
-
 
         val mDrawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name)
         mDrawerLayout!!.addDrawerListener(mDrawerToggle)
@@ -202,6 +203,26 @@ class MainActivity : AppCompatActivity() {
             this,
             ViewModelFactory(ApiHelper(ApiServiceImpl()))
         ).get(MainViewModel::class.java)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.home -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.map -> {
+                val intent = Intent(this, MapsActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.logout -> {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+        mDrawerLayout?.closeDrawer(GravityCompat.START)
+        return true
     }
 
 

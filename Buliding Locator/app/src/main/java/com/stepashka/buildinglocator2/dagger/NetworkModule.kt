@@ -43,11 +43,11 @@ object NetworkModule {
 
         .addInterceptor(logger)
 
-        .retryOnConnectionFailure(false)
+        .retryOnConnectionFailure(true)
 
-        .readTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(10, TimeUnit.MINUTES)
 
-        .connectTimeout(15, TimeUnit.SECONDS)
+        .connectTimeout(10, TimeUnit.MINUTES)
 
         .build()
 
