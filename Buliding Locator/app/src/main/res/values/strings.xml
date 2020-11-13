@@ -38,5 +38,7 @@
     <string name="fjsklfjasl">lambdaclient</string>
     <string name="adasa">lambdasecret</string>
     <string name="m">AIzaSyA7JMQQLRlFibEirH6LoXhmz-LFXSh0DxQ</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 
 </resources>
