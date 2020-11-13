@@ -1,16 +1,17 @@
 package com.stepashka.buildinglocator2
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -64,6 +65,8 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
 
     @Inject
     lateinit var callService: LoginServiceSql
+
+
     private var mDrawerLayout: DrawerLayout? = null
     private var mNavigationView: NavigationView? = null
     private var toolbar: Toolbar? = null
@@ -73,10 +76,11 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
 
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+
         mDrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
         mNavigationView = findViewById<NavigationView>(R.id.navigationView)
-
-        val mDrawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name)
+       val mDrawerToggle = ActionBarDrawerToggle(this, mDrawerLayout,toolbar, R.string.open, R.string.close)
         mDrawerLayout!!.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
 
@@ -210,6 +214,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             R.id.home -> {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+
             }
             R.id.map -> {
                 val intent = Intent(this, MapsActivity::class.java)
