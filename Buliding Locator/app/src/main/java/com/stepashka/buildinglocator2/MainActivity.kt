@@ -80,10 +80,11 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
 
         mDrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
         mNavigationView = findViewById<NavigationView>(R.id.navigationView)
-       val mDrawerToggle = ActionBarDrawerToggle(this, mDrawerLayout,toolbar, R.string.open, R.string.close)
+       val mDrawerToggle = ActionBarDrawerToggle(this, mDrawerLayout,toolbar, 0,0)
+
         mDrawerLayout!!.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
-
+        mNavigationView!!.setNavigationItemSelectedListener(this)
         progress_news_feed.visibility = View.INVISIBLE
 
         customProgressDialog = CustomeProgressDialog(this)
