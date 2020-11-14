@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/cl_activity_main_parent"
+<androidx.drawerlayout.widget.DrawerLayout
+
+    android:id="@+id/drawerLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,25 +12,20 @@
     tools:context=".MainActivity">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
+
+
+    <RelativeLayout
+        android:id="@+id/relative"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_below="@id/toolbar">
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigationView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/nav_header"
-            app:itemTextColor="#000000"
-            app:menu="@menu/nav_menu" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
 
 
 
@@ -40,12 +36,13 @@
             android:background="#00FFFFFF"
             android:padding="8dp">
 
+
             <RelativeLayout
                 android:id="@+id/relativeText"
                 android:layout_width="403dp"
-                android:layout_height="72dp"
+                android:layout_height="59dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="56dp">
 
                 <Button
                     android:id="@+id/searchButton2"
@@ -54,7 +51,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="17dp"
-                    android:layout_toEndOf="@+id/enterText"
                     android:background="@drawable/vector_search"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -62,45 +58,27 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.007" />
 
-                <EditText
-                    android:id="@+id/enterText"
-                    android:layout_width="293dp"
-                    android:layout_height="43dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="0.5"
-                    android:background="#00FFFFFF"
-                    android:hint="Search by address or complex name"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@+id/searchButton2"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/recycles_relative_layout"
-                android:layout_width="402dp"
-                android:layout_height="565dp"
+                android:layout_width="wrap_content"
+                android:layout_height="581dp"
                 android:layout_alignEnd="@+id/relativeText"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginTop="91dp"
+                android:layout_marginTop="131dp"
                 android:layout_marginEnd="2dp"
                 android:layout_marginBottom="11dp">
 
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/vRecycle"
-                    android:layout_width="match_parent"
+                    android:layout_width="383dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="0dp"
                     app:layout_constraintVertical_bias="0.976"
                     tools:layout_editor_absoluteX="-10dp">
 
@@ -143,9 +121,37 @@
 
 
             </RelativeLayout>
+
+            <EditText
+                android:id="@+id/enterText"
+                android:layout_width="285dp"
+                android:layout_height="48dp"
+                android:layout_alignBottom="@+id/relativeText"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="-4dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="122dp"
+                android:layout_marginBottom="7dp"
+                android:layout_weight="0.5"
+                android:background="#00FFFFFF"
+                android:hint="Search by address or complex name"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/searchButton2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
         </RelativeLayout>
 
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+    </RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:itemTextColor="#000000"
+        app:menu="@menu/nav_menu" />
 
-</RelativeLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
