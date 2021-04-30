@@ -92,8 +92,11 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
         holder.address?.text = currentMap?.address
         // holder.eventDate?.text = currentMap?.created_at.toString()
         val myString = currentMap?.created_at.toString()
+
+
+        //** this is where we will try to set the date!
         val ms = "recent"
-        holder.date?.text = ms
+        holder.date?.text = myString
         holder.username?.text = currentMap?.user?.username.toString()
         holder.city?.text = currentMap?.city.toString()
         holder.id?.text = currentMap?.id.toString()
@@ -151,6 +154,8 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
 
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        
         val id: TextView? = itemView.textview_id
         val mapImage: ImageView? = itemView.imageView_map
         val title: TextView? = itemView.textview_title
