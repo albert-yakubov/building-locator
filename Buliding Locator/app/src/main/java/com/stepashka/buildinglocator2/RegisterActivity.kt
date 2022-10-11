@@ -277,6 +277,7 @@ class RegisterActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallback
 
     //for location
     //this is the same as overriding onRequest permission result
+    @SuppressLint("MissingPermission")
     override fun onConnected(p0: Bundle?) {
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -299,7 +300,7 @@ class RegisterActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallback
         }
 
         startLocationUpdates()
-        mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
+        mLocation = mGoogleApiClient?.let { LocationServices.FusedLocationApi.getLastLocation(it) }
         if (mLocation == null) {
             startLocationUpdates()
         }
@@ -345,6 +346,7 @@ class RegisterActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallback
         val latLng = LatLng(location.latitude, location.longitude)
     }
     //location request is being used here for location updates
+    @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         // Create the location request
         mLocationRequest = LocationRequest.create()
@@ -370,10 +372,12 @@ class RegisterActivity : AppCompatActivity(), GoogleApiClient.ConnectionCallback
             // for ActivityCompat#requestPermissions for more details.
             return
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-            mGoogleApiClient,
-            mLocationRequest, this
-        )
+        mGoogleApiClient?.let {
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                it,
+                mLocationRequest!!, this
+            )
+        }
         Log.d("reque", "--->>>>")
     }
 

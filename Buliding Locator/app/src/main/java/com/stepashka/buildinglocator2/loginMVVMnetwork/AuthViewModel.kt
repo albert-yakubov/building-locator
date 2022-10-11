@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.util.Base64
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.ObservableBoolean
@@ -12,10 +13,14 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.squareup.picasso.Picasso
 import com.stepashka.buildinglocator2.LoginActivity
 import com.stepashka.buildinglocator2.MainActivity
 import com.stepashka.buildinglocator2.R
+import com.stepashka.buildinglocator2.models.NavUserResult
+import com.stepashka.buildinglocator2.models.User
 import com.stepashka.buildinglocator2.models.UserObservable
+import com.stepashka.buildinglocator2.models.UserResult
 import com.stepashka.buildinglocator2.services.ServiceBuilder
 import com.stepashka.buildinglocator2.util.ErrorUtils
 import com.stepashka.buildinglocator2.util.SingleLiveEvent
@@ -43,6 +48,10 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
 
         private const val CLIENT_SECRET = "lambdasecret"
 
+
+        var navUsername = ""
+        var navEmail = ""
+        var navProfilePicture = ""
 
         var authString = "$CLIENT_ID:$CLIENT_SECRET"
         var encodedAuthString: String = Base64.encodeToString(authString.toByteArray(), Base64.NO_WRAP)
@@ -87,8 +96,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
 
     }
 
-
     fun login(){
+
+        getLoggedInUser()
         progressDialog?.value = true
         authListener?.onStarted()
         val call: Call<ResponseBody> = ServiceBuilder.create()
@@ -99,7 +109,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
                 progressDialog?.value = false
 
                 login()
-
+                getLoggedInUser()
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -109,12 +119,15 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
                 progressDialog?.value = false
 
                 if (successfulLogin) {
+
                     val loginResponse = UserRepository().userLoginMVVM(
                         auth,
                         content_type,
                         username.toString(),
                         password.toString()
                     )
+
+
                     successfulLogin = false
                     authListener?.onSuccess(loginResponse)
 
@@ -125,6 +138,44 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
                         "Please check username and password!",
                         Toast.LENGTH_LONG).show()
                 }
+            }
+
+        })
+    }
+
+    fun getLoggedInUser(){
+        val call: Call<UserResult> = ServiceBuilder.create()
+            .getUser("${username}")
+
+
+
+        call.enqueue(object : Callback<UserResult> {
+            override fun onFailure(call: Call<UserResult>, t: Throwable) {
+                Toast.makeText(
+                    this@AuthViewModel.getApplication(),
+                    "You have been logged out",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
+
+            override fun onResponse(call: Call<UserResult>, response: Response<UserResult>) {
+                if (response.isSuccessful) {
+                    navUsername = response.body()?.username ?: "you were not logged in"
+                    navEmail = response.body()?.primaryemail ?: "you were not logged in"
+
+                    navProfilePicture = if ((response.body()?.profilepicture.toString().endsWith("jpeg")) ||
+                        (response.body()?.profilepicture.toString().endsWith("jpg")) ||
+                        (response.body()?.profilepicture.toString().endsWith("png")) ||
+                        (response.body()?.profilepicture.toString().endsWith("auto"))
+                    ) {
+                        response.body()?.profilepicture.toString()
+
+                    } else {
+                        "https://upload.wikimedia.org/wikipedia/en/d/dc/MichaelScott.png"
+                    }
+                }
+
             }
 
         })

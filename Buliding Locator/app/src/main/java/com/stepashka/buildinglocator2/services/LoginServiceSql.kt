@@ -45,7 +45,6 @@ interface LoginServiceSql{
     fun createNewMap(@Body newMap: NewMap) : Call<Void>
 
     @GET("users/user/name/{userName}")
-
     fun getUser(@Path("userName")username: String): Call<UserResult>
 
     @DELETE("postedmaps/postedmap/{id}")

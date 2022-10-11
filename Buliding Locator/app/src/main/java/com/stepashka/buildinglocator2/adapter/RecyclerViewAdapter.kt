@@ -1,5 +1,6 @@
 package com.stepashka.buildinglocator2.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -27,7 +28,7 @@ import retrofit2.Response
 class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>()  {
 
-    private var users: MutableList<User>? = null
+    private var postedUsers: MutableList<User>? = null
 
 
     private var context: Context? = null
@@ -36,11 +37,13 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
 
     companion object{
         var mapid: Long = 1
+        var PROFILEPIC: String = ""
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_view_updated, parent, false)
 
         return ViewHolder(view)
     }
@@ -50,11 +53,12 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
     }
 
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
 
         val currentMap = postedMaps?.get(position)
-
+        val currentUser = postedUsers?.get(position)
 
 
         //  if (!MainActivity.admins){
@@ -78,7 +82,7 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
 
         val eventPictireSfx = currentMap?.map.toString()
         val uri: Uri = Uri.parse(eventPictireSfx)
-        Glide.with(context).load(uri).into(holder.mapImage)
+        holder.mapImage?.let { Glide.with(context!!).load(uri).into(it) }
         //if ((currentMap?.event_image.toString().endsWith("jpeg")) ||
         //    (currentMap?.event_image.toString().endsWith("png")) ||
         //    (currentMap?.event_image.toString().endsWith("jpg")) ||
@@ -89,15 +93,18 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
         //holder.username?.text = currentMapAuthor?.username
 
         holder.title?.text = currentMap?.title
-        holder.address?.text = currentMap?.address
-        // holder.eventDate?.text = currentMap?.created_at.toString()
+        holder.address?.text = "${currentMap?.address}\n${currentMap?.city.toString()} ${currentMap?.state.toString()} ${currentMap?.zip.toString()}"
         val myString = currentMap?.created_at.toString()
-
-
-        //** this is where we will try to set the date!
         val ms = "recent"
         holder.date?.text = myString
-        holder.username?.text = currentMap?.user?.username.toString()
+        if(currentMap?.user == null){
+            holder.username?.text = buildString {
+        append("Admin")
+    }
+        }else{
+            holder.username?.text =  currentMap.user.username.toString()
+        }
+
         holder.city?.text = currentMap?.city.toString()
         holder.id?.text = currentMap?.id.toString()
         MainActivity.MAPID = currentMap?.id.toString().toLong()
@@ -125,7 +132,10 @@ class RecyclerViewAdapter(private var postedMaps: MutableList<PostedMaps>?) :
             (currentMap?.user?.profilepicture.toString().endsWith("png")) ||
             (currentMap?.user?.profilepicture.toString().contains("auto"))
         ) {
+
             Picasso.get().load(currentMap?.user?.profilepicture).into(holder.profilepicture)
+        }else{
+            Picasso.get().load("https://upload.wikimedia.org/wikipedia/en/d/dc/MichaelScott.png").into(holder.profilepicture)
         }
 
 //        holder.deleteButton.setOnClickListener {

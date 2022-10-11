@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.stepashka.buildinglocator2.databinding.ActivityLoginBinding
 import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthListener
 import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthViewModel
+import com.stepashka.buildinglocator2.models.UserResult
 import com.stepashka.buildinglocator2.util.CustomeProgressDialog
 import com.stepashka.buildinglocator2.util.Util
 import com.stepashka.buildinglocator2.util.toast
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), AuthListener {
     private val TAG = "LoginActivity"
+    var USER_NAME = AuthViewModel
     companion object {
         var successfulLogin: Boolean = false
         var content_type = "application/x-www-form-urlencoded"
@@ -31,6 +33,7 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         //var content_type = "application/json"
         const val CLIENT_ID = R.string.miinibio
         const val CLIENT_SECRET = R.string.miinisecret
+
 
 
         var authString = "$CLIENT_ID:$CLIENT_SECRET"
@@ -43,6 +46,7 @@ class LoginActivity : AppCompatActivity(), AuthListener {
 
         var username = ""
         lateinit var password: String
+        var email = ""
         //  var admins : Boolean = false
         //  var userid: Long = 12314546
         //  var ulatitude: Double = 0.0

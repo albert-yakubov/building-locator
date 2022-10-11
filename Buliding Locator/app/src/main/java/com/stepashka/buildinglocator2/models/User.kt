@@ -60,7 +60,7 @@ class ResetPassword(
 
 
 )
-class UserObservable(private var username: String, private var password: String) : BaseObservable() {
+class UserObservable(var username: String, private var password: String) : BaseObservable() {
     fun getpasssword(): String {
         return this.password
     }
@@ -75,6 +75,7 @@ class UserObservable(private var username: String, private var password: String)
 
     fun setusername(username: String) {
         this.username = username
+
     }
 
     fun isvalidData(): errorcodes {
@@ -94,4 +95,5 @@ class UserObservable(private var username: String, private var password: String)
 
 
 data class Result(val username: String? = null, val userid: Long? = null, val ulatitude: Double? = null, val ulongitude: Double? = null)
-data class UserResult(val username: String? = null, val result: Result, val  userid: Long? = null, val ulatitude: Double? = null, val ulongitude: Double? = null)
+data class  UserResult(val username: String? = null, val result: Result, val  userid: Long? = null, val ulatitude: Double? = null,val primaryemail: String? = null, val profilepicture: String? = null, val ulongitude: Double? = null)
+data class NavUserResult(val username: String? = null, val result: Result, val email: String? = null, val navProfilePicture: String? = null, val  userid: Long? = null, val ulatitude: Double? = null, val ulongitude: Double? = null)

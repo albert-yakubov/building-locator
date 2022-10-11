@@ -3,8 +3,10 @@ package com.stepashka.buildinglocator2
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,18 +19,23 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
+import com.squareup.picasso.Picasso
 import com.stepashka.buildinglocator2.adapter.RecyclerViewAdapter
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiHelper
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiServiceImpl
 import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthViewModel
 import com.stepashka.buildinglocator2.models.PostedMaps
+import com.stepashka.buildinglocator2.models.UserObservable
+import com.stepashka.buildinglocator2.models.UserResult
 import com.stepashka.buildinglocator2.services.LoginServiceSql
+import com.stepashka.buildinglocator2.services.ServiceBuilder
 import com.stepashka.buildinglocator2.uiMVVM.ViewModelFactory
 import com.stepashka.buildinglocator2.util.AppController
 import com.stepashka.buildinglocator2.util.CustomeProgressDialog
 import com.stepashka.buildinglocator2.util.Status
 import com.stepashka.buildinglocator2.util.toast
 import com.stepashka.buildinglocator2.viewmodel.MainViewModel
+import de.hdodenhof.circleimageview.CircleImageView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -40,11 +47,15 @@ import kotlinx.android.synthetic.main.activity_main2.searchButton2
 import kotlinx.android.synthetic.main.activity_main2.vRecycle
 import kotlinx.android.synthetic.main.activity_main2.view_floatingbutton
 import kotlinx.android.synthetic.main.activity_post_map.*
+import kotlinx.android.synthetic.main.nav_header.view.*
+import org.jetbrains.anko.image
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelectedListener {
-
     companion object{
         var map: MutableList<PostedMaps>? = null
         var title: String = ""
@@ -70,13 +81,17 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
     private var mDrawerLayout: DrawerLayout? = null
     private var mNavigationView: NavigationView? = null
     private var toolbar: Toolbar? = null
+    private var navProfilePictureCircleImageview: CircleImageView? = null
+    private var navUsername: String? = null
+    private var navEmail: String? = null
+    private var imageString = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-
 
         mDrawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
         mNavigationView = findViewById<NavigationView>(R.id.navigationView)
@@ -85,6 +100,25 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         mDrawerLayout!!.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
         mNavigationView!!.setNavigationItemSelectedListener(this)
+        val headers = mNavigationView!!.getHeaderView(0)
+        navProfilePictureCircleImageview = headers.profile_image
+
+        if (((AuthViewModel.navProfilePicture).toString().endsWith("jpeg")) ||
+            ((AuthViewModel.navProfilePicture).toString().endsWith("jpg")) ||
+            ((AuthViewModel.navProfilePicture).toString().endsWith("png")) ||
+            ((AuthViewModel.navProfilePicture).toString().contains("auto"))
+        ) {
+
+            Picasso.get().load((AuthViewModel.navProfilePicture)).into(navProfilePictureCircleImageview)
+        }else{
+            Picasso.get().load("https://upload.wikimedia.org/wikipedia/en/d/dc/MichaelScott.png").into(navProfilePictureCircleImageview)
+        }
+        getLoggedInUser()
+        val nav_username = headers.username_field
+        nav_username.text = navUsername
+        val nav_user_email = headers.email_field
+        nav_user_email.text = navEmail
+
         progress_news_feed.visibility = View.INVISIBLE
 
         customProgressDialog = CustomeProgressDialog(this)
@@ -93,7 +127,17 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             val intent = Intent(this, PostMapActivity::class.java)
             startActivity(intent)
         }
-
+        enterText.setOnKeyListener { _, keyCode,  keyEvent ->
+            if(keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_DOWN){
+                setupObserverForSearchTitle()
+                setupObserverForSearch()
+                setupUI()
+                setupViewModel()
+                Toast.makeText(this, "you clicked enter", Toast.LENGTH_LONG).show()
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
         setupUI()
         setupViewModel()
         setupObserver()
@@ -105,6 +149,8 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
             setupViewModel()
             //setupObserver()
         }
+
+
     }
     private fun setupUI() {
 
@@ -142,6 +188,7 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         customProgressDialog?.dismiss()
 
         val searchedFor = enterText.text.toString()
+
         if (searchedFor.isNotEmpty() && searchedFor.contains(searchedFor)) {
 
             disposable2 = callService.getAddress(searchedFor)
@@ -229,6 +276,49 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         }
         mDrawerLayout?.closeDrawer(GravityCompat.START)
         return true
+    }
+    val intentGet = Intent()
+    val usser = intentGet.getStringExtra("poopy") ?: "poop"
+
+    fun getLoggedInUser(){
+
+        val call: Call<UserResult> = ServiceBuilder.create()
+            .getUser(usser)
+
+
+
+        call.enqueue(object : Callback<UserResult> {
+            override fun onFailure(call: Call<UserResult>, t: Throwable) {
+                navUsername = "you failed to log in"
+                navEmail =  "you failed to log in"
+                Toast.makeText(
+                    this@MainActivity,
+                    "You have been logged out",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
+
+            override fun onResponse(call: Call<UserResult>, response: Response<UserResult>) {
+                if (response.isSuccessful) {
+                    navUsername = response.body()?.username ?: "you were not logged in"
+                    navEmail = response.body()?.primaryemail ?: "you were not logged in"
+
+                    if ((response.body()?.profilepicture.toString().endsWith("jpeg")) ||
+                        (response.body()?.profilepicture.toString().endsWith("jpg")) ||
+                        (response.body()?.profilepicture.toString().endsWith("png")) ||
+                        (response.body()?.profilepicture.toString().endsWith("auto"))
+                    ) {
+                        response.body()?.profilepicture.toString()
+
+                    } else {
+                        "https://upload.wikimedia.org/wikipedia/en/d/dc/MichaelScott.png"
+                    }
+                }
+
+            }
+
+        })
     }
 
 
