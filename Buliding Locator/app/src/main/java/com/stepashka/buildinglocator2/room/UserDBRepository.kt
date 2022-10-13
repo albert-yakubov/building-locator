@@ -15,19 +15,19 @@ class UserDBRepository(val context: Context) : UserRepoInterface {
 
 
     // Room
-    override fun getUserData(id: Int): LiveData<User> {
+    override fun getUserData(id: Int): LiveData<UserForDAO> {
         return database.userDao().getUserData(id)
     }
 
-    override fun create(obj: User) {
+    override fun create(obj: UserForDAO) {
         database.userDao().insert(obj)
     }
 
-    override fun update(obj: User) {
+    override fun update(obj: UserForDAO) {
         database.userDao().update(obj)
     }
 
-    override fun delete(obj: User) {
+    override fun delete(obj: UserForDAO) {
         database.userDao().delete(obj)
     }
 

@@ -7,9 +7,9 @@ import com.stepashka.buildinglocator2.models.User
 import com.stepashka.buildinglocator2.models.UserLogin
 
 
-interface UserRepoInterface : BaseRepoInterface<User> {
+interface UserRepoInterface : BaseRepoInterface<UserForDAO> {
 
-    fun getUserData(id: Int): LiveData<User>
+    fun getUserData(id: Int): LiveData<UserForDAO>
 
     fun loginUser(user: UserLogin)
 

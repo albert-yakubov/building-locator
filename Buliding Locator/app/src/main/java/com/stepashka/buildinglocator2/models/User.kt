@@ -1,5 +1,6 @@
 package com.stepashka.buildinglocator2.models
 
+import android.content.SharedPreferences
 import android.text.TextUtils
 import android.util.Patterns
 import androidx.databinding.BaseObservable
@@ -39,6 +40,8 @@ data class User(
 ):Serializable
 
 
+
+
 class UpdateUser(
 
     var mini_bio: String? = null,
@@ -60,7 +63,7 @@ class ResetPassword(
 
 
 )
-class UserObservable(var username: String, private var password: String) : BaseObservable() {
+class  UserObservable(var username: String, private var password: String) : BaseObservable() {
     fun getpasssword(): String {
         return this.password
     }

@@ -3,6 +3,7 @@ package com.stepashka.buildinglocator2.loginMVVMnetwork
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.util.Base64
 import android.widget.ImageView
 import android.widget.Toast
@@ -21,6 +22,9 @@ import com.stepashka.buildinglocator2.models.NavUserResult
 import com.stepashka.buildinglocator2.models.User
 import com.stepashka.buildinglocator2.models.UserObservable
 import com.stepashka.buildinglocator2.models.UserResult
+import com.stepashka.buildinglocator2.room.UserDAO
+import com.stepashka.buildinglocator2.room.UserDBRepository
+import com.stepashka.buildinglocator2.room.UserForDAO
 import com.stepashka.buildinglocator2.services.ServiceBuilder
 import com.stepashka.buildinglocator2.util.ErrorUtils
 import com.stepashka.buildinglocator2.util.SingleLiveEvent
@@ -35,6 +39,7 @@ import kotlin.math.log
 class AuthViewModel(application: Application) : AndroidViewModel(application){
 
     private var context: Context? = null
+    var UserDAO: UserDAO? = null
     var authListener : AuthListener? = null
     fun LoginViewModel(context: Context?) {
         this.context = context
@@ -56,8 +61,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
         var authString = "$CLIENT_ID:$CLIENT_SECRET"
         var encodedAuthString: String = Base64.encodeToString(authString.toByteArray(), Base64.NO_WRAP)
         var auth = "Basic $encodedAuthString"
-        // login viewModel
-        private lateinit var loginViewModel: AuthViewModel
 
 //        var username = ""
 //        lateinit var password: String
@@ -97,8 +100,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
     }
 
     fun login(){
-
-        getLoggedInUser()
+        UserDAO?.insertUser(UserForDAO(1,  username))
         progressDialog?.value = true
         authListener?.onStarted()
         val call: Call<ResponseBody> = ServiceBuilder.create()
@@ -109,7 +111,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application){
                 progressDialog?.value = false
 
                 login()
-                getLoggedInUser()
+
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

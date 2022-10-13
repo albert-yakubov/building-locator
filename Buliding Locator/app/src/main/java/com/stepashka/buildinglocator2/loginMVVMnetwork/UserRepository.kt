@@ -11,7 +11,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserRepository{
+class  UserRepository{
+    companion object{
+        var USER_NAME = ""
+    }
     // this repository will store the callbacks from the loginInterface, & pass the value to viewModel not on TabActivity
 
     // this function is returning the live data object of type string, which wll be passed to viewModel
@@ -20,6 +23,7 @@ class UserRepository{
 
         // inject user login function
         LoginAPI().loginMVVM(auth, content_type, username, password).enqueue(object : Callback<ResponseBody>{
+
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 loginResponseMVVM.value = t.message
             }
@@ -28,6 +32,7 @@ class UserRepository{
 
                 if (response.isSuccessful){
                     loginResponseMVVM.value = response.body()?.toString()
+
                 }else{
                     loginResponseMVVM.value = response.errorBody()?.toString()
                 }

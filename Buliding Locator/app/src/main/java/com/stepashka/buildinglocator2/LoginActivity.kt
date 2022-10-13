@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,16 +17,21 @@ import androidx.lifecycle.ViewModelProviders
 import com.stepashka.buildinglocator2.databinding.ActivityLoginBinding
 import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthListener
 import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthViewModel
+import com.stepashka.buildinglocator2.models.User
 import com.stepashka.buildinglocator2.models.UserResult
+import com.stepashka.buildinglocator2.services.ServiceBuilder
 import com.stepashka.buildinglocator2.util.CustomeProgressDialog
 import com.stepashka.buildinglocator2.util.Util
 import com.stepashka.buildinglocator2.util.toast
 import kotlinx.android.synthetic.main.activity_login.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class LoginActivity : AppCompatActivity(), AuthListener {
     private val TAG = "LoginActivity"
-    var USER_NAME = AuthViewModel
+
     companion object {
         var successfulLogin: Boolean = false
         var content_type = "application/x-www-form-urlencoded"
@@ -35,14 +41,11 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         const val CLIENT_SECRET = R.string.miinisecret
 
 
-
         var authString = "$CLIENT_ID:$CLIENT_SECRET"
         var encodedAuthString: String =
             Base64.encodeToString(authString.toByteArray(), Base64.NO_WRAP)
         var auth = "Basic $encodedAuthString"
 
-        // login viewModel
-        private lateinit var loginViewModel: AuthViewModel
 
         var username = ""
         lateinit var password: String
@@ -53,6 +56,7 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         //  var ulongitude: Double = 0.0
         //  var username4D: String = ""
 
+        var USER_NAME = ""
     }
 
 //    override var validatedUsername: Boolean = false
@@ -66,7 +70,9 @@ class LoginActivity : AppCompatActivity(), AuthListener {
 
 
     // trying to remember the user with shared prefs:
-    var sp: SharedPreferences? = null
+    private lateinit var sp: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
+
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +80,8 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         sp = getSharedPreferences("login", MODE_PRIVATE)
 
         if(sp!!.getBoolean("logged",false)){
+
+
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -83,6 +91,7 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         binding?.viewModel = viewmodel
         viewmodel!!.authListener = this
         customeProgressDialog = CustomeProgressDialog(this)
+
         initObservables()
 
 
@@ -133,10 +142,11 @@ class LoginActivity : AppCompatActivity(), AuthListener {
 
     override fun onSuccess(loginResponse: LiveData<String>) {
         loginResponse.observe(this, Observer {
-            toast(it)
+            toast(it.toString())
             // sending user to tab home activity
-            sp?.edit()?.putBoolean("logged",true)?.apply();
 
+            sp?.edit()?.putBoolean("logged",true)?.apply();
+            Log.i("login", "logging in here")
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -160,7 +170,34 @@ class LoginActivity : AppCompatActivity(), AuthListener {
         })
 
         viewmodel?.userLogin?.observe(this, Observer {
+
             Toast.makeText(this, "welcome, $username", Toast.LENGTH_LONG).show()
+        })
+    }
+    fun getLoggedInUser(){
+        val call: Call<User> = ServiceBuilder.create()
+            .getUserById(MainActivity.userid)
+
+
+
+        call.enqueue(object : Callback<User> {
+            override fun onFailure(call: Call<User>, t: Throwable) {
+
+                Toast.makeText(
+                    this@LoginActivity,
+                    "You have been logged out",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
+
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                if (response.isSuccessful) {
+
+                }
+
+            }
+
         })
     }
 }

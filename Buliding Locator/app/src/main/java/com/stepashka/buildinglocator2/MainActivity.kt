@@ -1,6 +1,7 @@
 package com.stepashka.buildinglocator2
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.MutableLiveData
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,13 +22,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import com.squareup.picasso.Picasso
+import com.stepashka.buildinglocator2.MainActivity.Companion.username
 import com.stepashka.buildinglocator2.adapter.RecyclerViewAdapter
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiHelper
 import com.stepashka.buildinglocator2.dataMVVM.apiMVVM.ApiServiceImpl
 import com.stepashka.buildinglocator2.loginMVVMnetwork.AuthViewModel
 import com.stepashka.buildinglocator2.models.PostedMaps
+import com.stepashka.buildinglocator2.models.User
 import com.stepashka.buildinglocator2.models.UserObservable
 import com.stepashka.buildinglocator2.models.UserResult
+import com.stepashka.buildinglocator2.room.UserDAO
 import com.stepashka.buildinglocator2.services.LoginServiceSql
 import com.stepashka.buildinglocator2.services.ServiceBuilder
 import com.stepashka.buildinglocator2.uiMVVM.ViewModelFactory
@@ -49,6 +54,7 @@ import kotlinx.android.synthetic.main.activity_main2.view_floatingbutton
 import kotlinx.android.synthetic.main.activity_post_map.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import org.jetbrains.anko.image
+import org.jetbrains.anko.sp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -56,6 +62,9 @@ import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelectedListener {
+
+    val sharedPreferences: SharedPreferences? = null
+    var UserDAO: UserDAO? = null
     companion object{
         var map: MutableList<PostedMaps>? = null
         var title: String = ""
@@ -103,6 +112,10 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         val headers = mNavigationView!!.getHeaderView(0)
         navProfilePictureCircleImageview = headers.profile_image
 
+
+        val usernameFromDAO = UserDAO!!.getAllStoredUsers()
+        val lastindexValueinRoomDB = usernameFromDAO.lastIndex
+        println(lastindexValueinRoomDB)
         if (((AuthViewModel.navProfilePicture).toString().endsWith("jpeg")) ||
             ((AuthViewModel.navProfilePicture).toString().endsWith("jpg")) ||
             ((AuthViewModel.navProfilePicture).toString().endsWith("png")) ||
@@ -113,9 +126,9 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         }else{
             Picasso.get().load("https://upload.wikimedia.org/wikipedia/en/d/dc/MichaelScott.png").into(navProfilePictureCircleImageview)
         }
-        getLoggedInUser()
+
         val nav_username = headers.username_field
-        nav_username.text = navUsername
+        nav_username.text = ""
         val nav_user_email = headers.email_field
         nav_user_email.text = navEmail
 
@@ -277,49 +290,15 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         mDrawerLayout?.closeDrawer(GravityCompat.START)
         return true
     }
-    val intentGet = Intent()
-    val usser = intentGet.getStringExtra("poopy") ?: "poop"
-
-    fun getLoggedInUser(){
-
-        val call: Call<UserResult> = ServiceBuilder.create()
-            .getUser(usser)
 
 
 
-        call.enqueue(object : Callback<UserResult> {
-            override fun onFailure(call: Call<UserResult>, t: Throwable) {
-                navUsername = "you failed to log in"
-                navEmail =  "you failed to log in"
-                Toast.makeText(
-                    this@MainActivity,
-                    "You have been logged out",
-                    Toast.LENGTH_LONG
-                ).show()
 
-            }
 
-            override fun onResponse(call: Call<UserResult>, response: Response<UserResult>) {
-                if (response.isSuccessful) {
-                    navUsername = response.body()?.username ?: "you were not logged in"
-                    navEmail = response.body()?.primaryemail ?: "you were not logged in"
 
-                    if ((response.body()?.profilepicture.toString().endsWith("jpeg")) ||
-                        (response.body()?.profilepicture.toString().endsWith("jpg")) ||
-                        (response.body()?.profilepicture.toString().endsWith("png")) ||
-                        (response.body()?.profilepicture.toString().endsWith("auto"))
-                    ) {
-                        response.body()?.profilepicture.toString()
 
-                    } else {
-                        "https://upload.wikimedia.org/wikipedia/en/d/dc/MichaelScott.png"
-                    }
-                }
 
-            }
 
-        })
-    }
 
 
 }
